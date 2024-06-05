@@ -28,8 +28,8 @@ func RegisterHandlers(e *echo.Echo, isBootStrapping bool) {
 		HTML5:      true,
 		Filesystem: http.FS(distDirFS),
 	}))
-	e.FileFS("/dashboard", "index.html", distIndexHtml)
-	e.StaticFS("/dashboard", distDirFS)
+	e.FileFS("/frontend", "index.html", distIndexHtml)
+	e.StaticFS("/frontend", distDirFS)
 	if isBootStrapping {
 		// Re-direct / to /dashboard/setup
 		e.GET("/", func(c echo.Context) error {
