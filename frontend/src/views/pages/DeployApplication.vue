@@ -165,7 +165,7 @@ const onClickTab = (index) => {
   </ModalDialog>
   <div class="flex h-full w-full max-w-7xl flex-col items-center sm:px-0">
     <div role="tablist" class="tabs tabs-boxed">
-      <a v-for="(sectionName, index) in sectionNames" @click="() => onClickTab(index)" role="tab" class="tab" :class="selectedTabIndex === index && 'tab-active'">{{ sectionName }}</a>
+      <a v-for="(sectionName, index) in sectionNames" v-bind:key="index" @click="() => onClickTab(index)" role="tab" class="tab" :class="selectedTabIndex === index && 'tab-active'">{{ sectionName }}</a>
     </div>
     <!-- <TabGroup :selected-index="selectedTabIndex">
       <TabList class="bg-primary flex w-full max-w-4xl space-x-3 rounded-full p-1">
@@ -204,21 +204,3 @@ const onClickTab = (index) => {
     <!-- </TabGroup> -->
   </div>
 </template>
-
-<style scoped>
-.tab-button {
-  @apply w-full rounded-full px-3 py-2 text-sm font-medium leading-5 focus:outline-none;
-}
-
-.tab-button-selected {
-  @apply bg-gray-100 text-gray-900 shadow;
-}
-
-.tab-button-unselected {
-  @apply text-gray-200 hover:bg-white/[0.1] hover:text-white;
-}
-
-.tab-panel {
-  @apply mt-5;
-}
-</style>

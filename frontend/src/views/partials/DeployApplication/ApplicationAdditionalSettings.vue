@@ -117,38 +117,28 @@ const submitDetails = () => {
     </div>
     <!-- Replicas -->
     <div v-if="stateRef.deploymentStrategy === 'replicated'" class="mt-6 max-w-md">
-      <label class="block text-sm font-medium text-gray-700" for="no_of_replicase"
-        >No of Replicas <span class="text-red-600"> *</span>
-      </label>
-      <div class="mt-1">
-        <input
-          class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-          name="no_of_replicase"
-          placeholder="No of Replicas"
-          type="number"
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">No of Replicas <span class="text-red-600"> *</span></span>
+        </div>
+        <input class="input input-bordered w-full" name="no_of_replicase" placeholder="No of Replicas" type="number"
           v-model="stateRef.replicas" />
-      </div>
+      </label>
     </div>
     <!-- Environment Variables -->
     <p class="mt-6 text-lg font-medium text-gray-900">Environment Variables</p>
-    <EnvironmentVariablesEditor
-      :add-environment-variable="addEnvironmentVariable"
+    <EnvironmentVariablesEditor :add-environment-variable="addEnvironmentVariable"
       :delete-environment-variable="deleteEnvironmentVariable"
       :environment-variables-keys="stateRef.environmentVariablesKeys"
-      :environment-variables-map="stateRef.environmentVariablesMap"
-      :on-variable-name-change="onVariableNameChange"
-      :on-variable-value-change="onVariableValueChange"
-      class="mt-2" />
+      :environment-variables-map="stateRef.environmentVariablesMap" :on-variable-name-change="onVariableNameChange"
+      :on-variable-value-change="onVariableValueChange" class="mt-2" />
     <!-- Persistent Volumes -->
     <p class="mt-6 text-lg font-medium text-gray-900">Persistent Volumes</p>
-    <PersistentVolumeBindingEditor
-      :add-persistent-volume-binding="addPersistentVolumeBinding"
-      :delete-persistent-volume-binding="deletePersistentVolumeBinding"
-      :on-mounting-path-change="onMountingPathChange"
+    <PersistentVolumeBindingEditor :add-persistent-volume-binding="addPersistentVolumeBinding"
+      :delete-persistent-volume-binding="deletePersistentVolumeBinding" :on-mounting-path-change="onMountingPathChange"
       :on-persistent-volume-change="onPersistentVolumeChange"
       :persistent-volume-binding-keys="stateRef.persistentVolumeBindingKeys"
-      :persistent-volume-bindings-map="stateRef.persistentVolumeBindingsMap"
-      class="mt-2" />
+      :persistent-volume-bindings-map="stateRef.persistentVolumeBindingsMap" class="mt-2" />
     <!-- Proceed to next -->
     <div class="mt-6 flex flex-row justify-end">
       <FilledButton type="primary" @click="submitDetails" :loading="isDeployRequestSubmitting">
