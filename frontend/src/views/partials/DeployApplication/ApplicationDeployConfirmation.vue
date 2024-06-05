@@ -1,5 +1,4 @@
 <script setup>
-import { TabPanel } from '@headlessui/vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 
 defineProps({
@@ -15,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <TabPanel :key="4" class="flex h-full w-full flex-col p-6">
+  <div :key="4" class="flex h-full w-full flex-col p-6">
     <div class="flex h-full w-full flex-col items-center justify-center">
       <p class="text-3xl font-bold text-gray-700">👏 Great Job</p>
       <p class="mt-4 text-xl font-medium text-gray-700">You are one step away from deploying your application</p>
@@ -23,7 +22,7 @@ defineProps({
         >Click to Deploy Application
       </FilledButton>
     </div>
-  </TabPanel>
+  </div>
 </template>
 
 <style scoped></style>

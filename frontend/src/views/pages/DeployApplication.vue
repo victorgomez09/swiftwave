@@ -146,6 +146,7 @@ const finalizeApplicationAdditionalSettingsAndDeploy = (additionalSettings) => {
 }
 
 const onClickTab = (index) => {
+  selectedTabIndex.value = index
   if (index < selectedTabIndex.value) {
     alert('If you want to change the previous configuration, you need to refresh the page and start over')
   }
@@ -182,18 +183,21 @@ const onClickTab = (index) => {
 
       <div class="mt-4 flex h-full w-full flex-col items-center">
         <!-- Application Name Selection -->
-        <ApplicationNameSelection :final-application-name-and-move-to-next-tab="finalApplicationNameAndMoveToNextTab" />
+        <ApplicationNameSelection v-if="selectedTabIndex == 0" :final-application-name-and-move-to-next-tab="finalApplicationNameAndMoveToNextTab" />
         <!-- Source Selection -->
         <ApplicationSourceSelection
+        v-else-if="selectedTabIndex === 1"
           :finalize-application-source-and-move-to-next-tab="finalizeApplicationSourceAndMoveToNextTab" />
         <!--  Source Configuration -->
         <ApplicationSourceConfiguration
+        v-else-if="selectedTabIndex === 2"
           :application-source-type="newApplicationState.upstreamType"
           :finalize-application-source-configuration-and-move-to-next-tab="
             finalizeApplicationSourceConfigurationAndMoveToNextTab
           " />
         <!-- Additional Settings  -->
         <ApplicationAdditionalSettings
+        v-else
           :finalize-application-additional-settings-and-deploy="finalizeApplicationAdditionalSettingsAndDeploy"
           :is-deploy-request-submitting="isDeployRequestSubmitting" />
       </div>

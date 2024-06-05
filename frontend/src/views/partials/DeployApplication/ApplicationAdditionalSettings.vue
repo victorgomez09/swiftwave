@@ -1,5 +1,4 @@
 <script setup>
-import { TabPanel } from '@headlessui/vue'
 import Switch from '@/views/components/Switch.vue'
 import { reactive } from 'vue'
 import EnvironmentVariablesEditor from '@/views/partials/DeployApplication/EnvironmentVariablesEditor.vue'
@@ -106,7 +105,7 @@ const submitDetails = () => {
 </script>
 
 <template>
-  <TabPanel :key="3" class="flex w-full flex-col p-6">
+  <div :key="3" class="flex w-full flex-col p-6">
     <!-- Deployment Configuration -->
     <p class="mt-6 text-lg font-medium text-gray-900">Deployment Configuration</p>
     <div class="mt-3 flex flex-row items-center">
@@ -157,7 +156,7 @@ const submitDetails = () => {
         Confirm & Deploy Application
       </FilledButton>
     </div>
-  </TabPanel>
+  </div>
 </template>
 
 <style scoped></style>

@@ -2,7 +2,6 @@
 import { computed, reactive, ref } from 'vue'
 import axios from 'axios'
 import { useAuthStore } from '@/store/auth.js'
-import { TabPanel } from '@headlessui/vue'
 import { useLazyQuery, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useToast } from 'vue-toastification'
@@ -334,7 +333,7 @@ const openChooseOtherDockerConfigurationModal = computed(
     ref="chooseOtherDockerConfigurationModalRef"
     :on-apply-configuration="updateDockerConfiguration" />
 
-  <TabPanel :key="2" class="mt-5 flex h-full w-full flex-row justify-evenly p-6">
+  <div :key="2" class="mt-5 flex h-full w-full flex-row justify-evenly p-6">
     <div class="w-1/2 max-w-md">
       <!--  Git as Source  -->
       <div v-if="applicationSourceType === 'git'" class="w-full">
@@ -564,7 +563,7 @@ const openChooseOtherDockerConfigurationModal = computed(
       :docker-configuration-generating="dockerConfigGeneratorGenerating"
       :is-open="stateRef.isDockerFileEditorOpen"
       :submit="generateConfigurationForCustomDockerFile" />
-  </TabPanel>
+  </div>
 </template>
 
 <style scoped></style>
