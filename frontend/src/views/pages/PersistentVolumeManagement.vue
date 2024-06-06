@@ -9,7 +9,7 @@ import TableHeader from '@/views/components/Table/TableHeader.vue'
 import TableMessage from '@/views/components/Table/TableMessage.vue'
 import { computed, reactive, ref } from 'vue'
 import ModalDialog from '@/views/components/ModalDialog.vue'
-import PersistentVolumeRow from '@/views/partials/PersistentVolumeRow.vue'
+import PersistentVolumeRow from '@/views/partials/PersistentVolumeCard.vue'
 import PersistentVolumeBackups from '@/views/partials/PersistentVolumeBackups.vue'
 import PersistentVolumeRestores from '@/views/partials/PersistentVolumeRestores.vue'
 import { getHttpBaseUrl } from '@/vendor/utils.js'
@@ -18,13 +18,14 @@ import { useAuthStore } from '@/store/auth.js'
 import Badge from '@/views/components/Badge.vue'
 import CreatePersistentVolumeModal from '@/views/partials/CreatePersistentVolumeModal.vue'
 import SecuredText from '@/views/components/SecuredText.vue'
+import PersistentVolumeCard from '@/views/partials/PersistentVolumeCard.vue'
 
 const toast = useToast()
 const authStore = useAuthStore()
 
 // Create persistent volume
 const createPersistentVolumeModalRef = ref(null)
-const openCreatePersistentVolumeModal = computed(() => createPersistentVolumeModalRef.value?.openModal ?? (() => {}))
+const openCreatePersistentVolumeModal = computed(() => createPersistentVolumeModalRef.value?.openModal ?? (() => { }))
 
 // Delete persistent volume
 const {
@@ -211,18 +212,12 @@ const showDetails = (volume) => {
 <template>
   <section class="mx-auto w-full max-w-7xl">
     <!-- Drawer for persistent volume backups -->
-    <PersistentVolumeBackups
-      :is-drawer-open="isBackupDrawerOpen"
-      :close-drawer="closeBackupDrawer"
-      :persistent-volume-id="selectedPersistentVolumeId"
-      :persistent-volume-name="selectedPersistentVolumeName" />
+    <PersistentVolumeBackups :is-drawer-open="isBackupDrawerOpen" :close-drawer="closeBackupDrawer"
+      :persistent-volume-id="selectedPersistentVolumeId" :persistent-volume-name="selectedPersistentVolumeName" />
 
     <!-- Drawer for persistent volume restores -->
-    <PersistentVolumeRestores
-      :is-drawer-open="isRestoreDrawerOpen"
-      :close-drawer="closeRestoreDrawer"
-      :persistent-volume-id="selectedPersistentVolumeId"
-      :persistent-volume-name="selectedPersistentVolumeName" />
+    <PersistentVolumeRestores :is-drawer-open="isRestoreDrawerOpen" :close-drawer="closeRestoreDrawer"
+      :persistent-volume-id="selectedPersistentVolumeId" :persistent-volume-name="selectedPersistentVolumeName" />
 
     <!-- Modal for create persistent volumes -->
     <CreatePersistentVolumeModal ref="createPersistentVolumeModalRef" :callback-on-create="refetchPersistentVolumes" />
@@ -233,27 +228,19 @@ const showDetails = (volume) => {
       <template v-slot:body>
         Choose the backup file (*.tar.gz) to restore the volume.
         <div class="">
-          <label class="block text-sm font-medium text-gray-900 dark:text-white" for="source_code"
-            >Select Restore File</label
-          >
+          <label class="block text-sm font-medium text-gray-900 dark:text-white" for="source_code">Select Restore
+            File</label>
           <div class="mx-auto max-w-md space-y-8">
-            <input
-              @change="(e) => (restoreFileFieldRef = e.target)"
-              class="w-full cursor-pointer rounded-md bg-gray-100 text-sm text-black file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-800 file:px-4 file:py-2 file:text-white file:hover:bg-gray-700 focus:outline-none"
-              accept=".tar.gz"
-              type="file" />
+            <input @change="(e) => (restoreFileFieldRef = e.target)"
+              class="w-full cursor-pointer rounded-md bg-gray-100 text-sm text-black file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-800 file:px-4 file:py-2 file:text-white file:hover:bg-base-content focus:outline-none"
+              accept=".tar.gz" type="file" />
           </div>
         </div>
       </template>
       <template v-slot:footer>
         <div class="flex w-full flex-col space-y-2">
-          <FilledButton
-            class="w-full"
-            type="primary"
-            :disabled="isRestoreNowButtonDisabled"
-            :loading="isRestoreNowButtonLoading"
-            :click="uploadAndRestoreNow"
-            >Upload & Restore Now
+          <FilledButton class="w-full" type="primary" :disabled="isRestoreNowButtonDisabled"
+            :loading="isRestoreNowButtonLoading" :click="uploadAndRestoreNow">Upload & Restore Now
             <span v-if="isRestoreNowButtonLoading" class="ml-2">{{ uploadPercentage }}%</span>
           </FilledButton>
           <FilledButton class="w-full" type="secondary" v-if="!isRestoreNowButtonLoading" :click="closeRestoreNowModal">
@@ -269,16 +256,15 @@ const showDetails = (volume) => {
       <template v-slot:body>
         <div class="mt-4 flex w-full flex-row gap-2">
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">Volume Name</label>
+            <label class="block text-sm font-medium text-base-content">Volume Name</label>
             <div class="mt-1">
-              <p
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+              <p class="">
                 {{ selectedVolumeDetails.name }}
               </p>
             </div>
           </div>
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">Volume Type</label>
+            <label class="block text-sm font-medium text-base-content">Volume Type</label>
             <div class="mt-1">
               <Badge type="success" v-if="selectedVolumeDetails.type === 'local'">Local</Badge>
               <Badge type="warning" v-if="selectedVolumeDetails.type === 'nfs'"> &nbsp;&nbsp;NFS&nbsp;&nbsp;</Badge>
@@ -287,7 +273,7 @@ const showDetails = (volume) => {
           </div>
         </div>
         <div class="mt-4" v-if="selectedVolumeDetails.type === 'nfs'">
-          <label class="block text-sm font-medium text-gray-700">NFS Config</label>
+          <label class="block text-sm font-medium text-base-content">NFS Config</label>
           <div class="mt-1">
             <p
               class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -296,7 +282,7 @@ const showDetails = (volume) => {
           </div>
         </div>
         <div class="mt-4" v-if="selectedVolumeDetails.type === 'nfs'">
-          <label class="block text-sm font-medium text-gray-700">NFS Version</label>
+          <label class="block text-sm font-medium text-base-content">NFS Version</label>
           <div class="mt-1">
             <p
               class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -305,7 +291,7 @@ const showDetails = (volume) => {
           </div>
         </div>
         <div class="mt-4" v-if="selectedVolumeDetails.type === 'cifs'">
-          <label class="block text-sm font-medium text-gray-700">CIFS Host</label>
+          <label class="block text-sm font-medium text-base-content">CIFS Host</label>
           <div class="mt-1">
             <p
               class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -314,7 +300,7 @@ const showDetails = (volume) => {
           </div>
         </div>
         <div class="mt-4" v-if="selectedVolumeDetails.type === 'cifs'">
-          <label class="block text-sm font-medium text-gray-700">CIFS Share</label>
+          <label class="block text-sm font-medium text-base-content">CIFS Share</label>
           <div class="mt-1">
             <p
               class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -324,7 +310,7 @@ const showDetails = (volume) => {
         </div>
         <div class="mt-4 flex w-full flex-row gap-2" v-if="selectedVolumeDetails.type === 'cifs'">
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">Username</label>
+            <label class="block text-sm font-medium text-base-content">Username</label>
             <div class="mt-1">
               <p
                 class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -333,7 +319,7 @@ const showDetails = (volume) => {
             </div>
           </div>
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">Password</label>
+            <label class="block text-sm font-medium text-base-content">Password</label>
             <div class="mt-1">
               <SecuredText>{{ selectedVolumeDetails.cifsConfig.password }}</SecuredText>
             </div>
@@ -341,7 +327,7 @@ const showDetails = (volume) => {
         </div>
         <div class="mt-4 flex w-full flex-row gap-2" v-if="selectedVolumeDetails.type === 'cifs'">
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">File Mode</label>
+            <label class="block text-sm font-medium text-base-content">File Mode</label>
             <div class="mt-1">
               <p
                 class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -350,7 +336,7 @@ const showDetails = (volume) => {
             </div>
           </div>
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">Dir Mode</label>
+            <label class="block text-sm font-medium text-base-content">Dir Mode</label>
             <div class="mt-1">
               <p
                 class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -361,7 +347,7 @@ const showDetails = (volume) => {
         </div>
         <div class="mt-4 flex w-full flex-row gap-2" v-if="selectedVolumeDetails.type === 'cifs'">
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">UID</label>
+            <label class="block text-sm font-medium text-base-content">UID</label>
             <div class="mt-1">
               <p
                 class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -370,7 +356,7 @@ const showDetails = (volume) => {
             </div>
           </div>
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700">GID</label>
+            <label class="block text-sm font-medium text-base-content">GID</label>
             <div class="mt-1">
               <p
                 class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -395,44 +381,22 @@ const showDetails = (volume) => {
           Add New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchPersistentVolumes">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': isPersistentVolumesLoading
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': isPersistentVolumesLoading
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
     <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">Volume Name</TableHeader>
-        <TableHeader align="center">Details</TableHeader>
-        <TableHeader align="center">Size</TableHeader>
-        <TableHeader align="center">PV Backup</TableHeader>
-        <TableHeader align="center">PV Restore</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-slot:message>
-        <TableMessage v-if="persistentVolumes.length === 0">
-          No persistent volumes found.<br />
-          Click on the "Add New" button to create a new persistent volume.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <PersistentVolumeRow
-          :delete-persistent-volume-with-confirmation="deletePersistentVolumeWithConfirmation"
-          v-for="volume in persistentVolumes"
-          :key="volume.id"
-          :show-backups="() => openBackupDrawerForVolume(volume.id, volume.name)"
-          :show-restores="() => openRestoreDrawerForVolume(volume.id, volume.name)"
-          :restore-now="() => openRestoreNowModal(volume.id, volume.name)"
-          :show-details="() => showDetails(volume)"
-          :volume="volume" />
-      </template>
-    </Table>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <PersistentVolumeCard :delete-persistent-volume-with-confirmation="deletePersistentVolumeWithConfirmation"
+        v-for="volume in persistentVolumes" :key="volume.id"
+        :show-backups="() => openBackupDrawerForVolume(volume.id, volume.name)"
+        :show-restores="() => openRestoreDrawerForVolume(volume.id, volume.name)"
+        :restore-now="() => openRestoreNowModal(volume.id, volume.name)" :show-details="() => showDetails(volume)"
+        :volume="volume" />
+    </div>
   </section>
 </template>
-
-<style scoped></style>

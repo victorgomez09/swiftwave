@@ -26,7 +26,14 @@ const props = defineProps({
   rounded: {
     type: Boolean,
     default: false
-  }
+  },
+  size: {
+    type: String,
+    default: '',
+    validator(value) {
+      return ['', 'sm', 'lg'].includes(value)
+    }
+  },
 })
 
 const isDisabled = computed(() => {
@@ -44,7 +51,9 @@ const isDisabled = computed(() => {
     'btn-info': type === 'info',
     'btn-ghost': type === 'ghost',
     'rounded-full': rounded,
-    'rounded-md': !rounded
+    'rounded-md': !rounded,
+    'btn-sm': size === 'sm',
+    'btn-lg': size === 'lg'
   }" :disabled="isDisabled" class="btn" type="button" @click.stop="click">
     <span v-if="loading" class="loading loading-spinner"></span>
     <!-- text -->

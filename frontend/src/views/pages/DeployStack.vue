@@ -177,7 +177,7 @@ const openUrlInNewPage = (url) => {
     <div class="h-full w-1/2">
       <!--  Stack Name  -->
       <div>
-        <label class="form-control w-full max-w-xs">
+        <label class="form-control w-full">
           <div class="label">
             <span class="label-text">Stack Name<span class="text-red-600"> *</span></span>
           </div>
@@ -187,7 +187,7 @@ const openUrlInNewPage = (url) => {
       </div>
       <!--   Stack Config (Yaml)   -->
       <div class="mt-3 h-[70%]">
-        <label class="form-control w-full max-w-xs">
+        <label class="form-control w-full">
           <div class="label">
             <span class="label-text">Stack Config (YAML)<span class="text-red-600">
                 *</span></span>

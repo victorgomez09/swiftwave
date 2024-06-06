@@ -17,28 +17,45 @@ const setSourceType = (type) => {
 
 <template>
   <div :key="1" class="flex h-full flex-col items-center justify-center space-y-6">
-    <p class="text-center text-lg font-medium text-gray-500">Select the source of your application</p>
-    <div class="flex flex-row items-center justify-center space-x-6">
+    <p class="text-center text-lg font-medium text-base-content">Select the source of your application</p>
+    <div class="flex flex-col items-center justify-center gap-4">
       <!--  Docker Image  -->
       <div :class="{
-        optionButtonSelected: sourceType === 'image'
-      }" class="optionButton" @click.prevent="() => setSourceType('image')">
-        <font-awesome-icon class="optionIcon" icon="fa-brands fa-docker" />
-        <p>Docker Image</p>
+        'border-primary': sourceType === 'image'
+      }" class="card border cursor-pointer hover:shadow" @click.prevent="() => setSourceType('image')">
+        <div class="card-body flex-row items-center p-4">
+          <font-awesome-icon class="w-10 h-10" icon="fa-brands fa-docker" />
+          <div class="flex flex-col ml-2">
+            <h3 class="card-title align-self-start">Docker Image</h3>
+            <p class="font-thin">Select a Docker image from Docker Hub</p>
+          </div>
+        </div>
       </div>
+
       <!--  Git   -->
       <div :class="{
-        optionButtonSelected: sourceType === 'git'
-      }" class="optionButton" @click.prevent="() => setSourceType('git')">
-        <font-awesome-icon class="optionIcon" icon="fa-brands fa-git" />
-        <p>Git Repository</p>
+        'border-primary': sourceType === 'git'
+      }" class="card border cursor-pointer hover:shadow" @click.prevent="() => setSourceType('git')">
+        <div class="card-body flex-row items-center p-4">
+          <font-awesome-icon class="w-10 h-10" icon="fa-brands fa-git" />
+          <div class="flex flex-col ml-2">
+            <h3 class="card-title align-self-start">Git Repository</h3>
+            <p class="font-thin">Point to an existing repo and make a copy</p>
+          </div>
+        </div>
       </div>
+
       <!--  Upload Code -->
       <div :class="{
-        optionButtonSelected: sourceType === 'sourceCode'
-      }" class="optionButton" @click.prevent="() => setSourceType('sourceCode')">
-        <font-awesome-icon class="optionIcon" icon="fa-solid fa-upload" />
-        <p>Upload Codes</p>
+        'border-primary': sourceType === 'sourceCode'
+      }" class="card border cursor-pointer w-full hover:shadow" @click.prevent="() => setSourceType('sourceCode')">
+        <div class="card-body flex-row items-center p-4">
+          <font-awesome-icon class="w-10 h-10" icon="fa-solid fa-upload" />
+          <div class="flex flex-col ml-2">
+            <h3 class="card-title align-self-start">Source Code</h3>
+            <p class="font-thin text-ellipsis">Upload your application code</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -48,29 +65,3 @@ const setSourceType = (type) => {
     </FilledButton>
   </div>
 </template>
-
-<style scoped>
-.optionButton {
-  @apply flex aspect-square h-fit cursor-pointer flex-col items-center justify-center rounded-md border-2 border-gray-400 p-8 hover:text-blue-700 hover:shadow-lg;
-}
-
-.optionButton p {
-  @apply mt-4 text-center text-base font-medium text-gray-500;
-}
-
-.optionIcon {
-  @apply text-5xl text-gray-600;
-}
-
-.optionButtonSelected {
-  @apply border-primary;
-}
-
-.optionButtonSelected p {
-  @apply text-primary;
-}
-
-.optionButtonSelected .optionIcon {
-  @apply text-primary;
-}
-</style>

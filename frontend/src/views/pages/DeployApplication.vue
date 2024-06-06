@@ -146,7 +146,11 @@ const finalizeApplicationAdditionalSettingsAndDeploy = (additionalSettings) => {
 }
 
 const onClickTab = (index) => {
-  selectedTabIndex.value = index
+  if (selectedTabIndex.value === 0 && newApplicationState.name !== '') {
+    selectedTabIndex.value = index
+  } else if (selectedTabIndex.value === 0 && newApplicationState.upstreamType !== '') {
+    selectedTabIndex.value = index
+  }
   if (index < selectedTabIndex.value) {
     alert('If you want to change the previous configuration, you need to refresh the page and start over')
   }
@@ -165,7 +169,8 @@ const onClickTab = (index) => {
   </ModalDialog>
   <div class="flex h-full w-full max-w-7xl flex-col items-center sm:px-0">
     <div role="tablist" class="tabs tabs-boxed">
-      <a v-for="(sectionName, index) in sectionNames" v-bind:key="index" @click="() => onClickTab(index)" role="tab" class="tab" :class="selectedTabIndex === index && 'tab-active'">{{ sectionName }}</a>
+      <a v-for="(sectionName, index) in sectionNames" v-bind:key="index" @click="() => onClickTab(index)" role="tab"
+        class="tab" :class="selectedTabIndex === index && 'tab-active'">{{ sectionName }}</a>
     </div>
     <!-- <TabGroup :selected-index="selectedTabIndex">
       <TabList class="bg-primary flex w-full max-w-4xl space-x-3 rounded-full p-1">
@@ -181,26 +186,23 @@ const onClickTab = (index) => {
         </Tab>
       </TabList> -->
 
-      <div class="mt-4 flex h-full w-full flex-col items-center">
-        <!-- Application Name Selection -->
-        <ApplicationNameSelection v-if="selectedTabIndex == 0" :final-application-name-and-move-to-next-tab="finalApplicationNameAndMoveToNextTab" />
-        <!-- Source Selection -->
-        <ApplicationSourceSelection
-        v-else-if="selectedTabIndex === 1"
-          :finalize-application-source-and-move-to-next-tab="finalizeApplicationSourceAndMoveToNextTab" />
-        <!--  Source Configuration -->
-        <ApplicationSourceConfiguration
-        v-else-if="selectedTabIndex === 2"
-          :application-source-type="newApplicationState.upstreamType"
-          :finalize-application-source-configuration-and-move-to-next-tab="
-            finalizeApplicationSourceConfigurationAndMoveToNextTab
+    <div class="mt-4 flex h-full w-full flex-col items-center">
+      <!-- Application Name Selection -->
+      <ApplicationNameSelection v-if="selectedTabIndex == 0"
+        :final-application-name-and-move-to-next-tab="finalApplicationNameAndMoveToNextTab" />
+      <!-- Source Selection -->
+      <ApplicationSourceSelection v-else-if="selectedTabIndex === 1"
+        :finalize-application-source-and-move-to-next-tab="finalizeApplicationSourceAndMoveToNextTab" />
+      <!--  Source Configuration -->
+      <ApplicationSourceConfiguration v-else-if="selectedTabIndex === 2"
+        :application-source-type="newApplicationState.upstreamType"
+        :finalize-application-source-configuration-and-move-to-next-tab="finalizeApplicationSourceConfigurationAndMoveToNextTab
           " />
-        <!-- Additional Settings  -->
-        <ApplicationAdditionalSettings
-        v-else
-          :finalize-application-additional-settings-and-deploy="finalizeApplicationAdditionalSettingsAndDeploy"
-          :is-deploy-request-submitting="isDeployRequestSubmitting" />
-      </div>
+      <!-- Additional Settings  -->
+      <ApplicationAdditionalSettings v-else
+        :finalize-application-additional-settings-and-deploy="finalizeApplicationAdditionalSettingsAndDeploy"
+        :is-deploy-request-submitting="isDeployRequestSubmitting" />
+    </div>
     <!-- </TabGroup> -->
   </div>
 </template>

@@ -103,29 +103,22 @@ defineExpose({
 
         <!-- Type Field -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="selected_docker_config">
-            Available Service Configuration
-          </label>
-          <div class="mt-1">
-            <select
-              id="selected_docker_config"
-              v-model="choosenDockerConfig"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Available Service Configuration</span>
+            </div>
+            <select id="selected_docker_config" v-model="choosenDockerConfig" class="select select-bordered w-full">
               <option selected value="">Choose From List</option>
               <option v-for="dockerConfig in availableDockerConfigs" :key="dockerConfig" :value="dockerConfig">
                 {{ dockerConfig }}
               </option>
             </select>
-          </div>
+          </label>
         </div>
       </template>
       <template v-slot:footer>
-        <FilledButton
-          type="primary"
-          :disabled="choosenDockerConfig === ''"
-          :loading="isDockerConfigurationsLoading"
-          class="w-full"
-          :click="fetchAndApplyConfiguration">
+        <FilledButton type="primary" :disabled="choosenDockerConfig === ''" :loading="isDockerConfigurationsLoading"
+          class="w-full" :click="fetchAndApplyConfiguration">
           Fetch & Apply Configuration
         </FilledButton>
       </template>

@@ -343,7 +343,7 @@ const openChooseOtherDockerConfigurationModal = computed(
             (Optional)</label>
           <div class="mt-1">
             <select id="git_credential" v-model="stateRef.gitCredentialID" @change="fetchGitBranches"
-              class="select select-bor">
+              class="select select-bordered w-full">
               <option selected value="0">No Credential</option>
               <option v-for="credential in gitCredentials" :key="credential.id" :value="credential.id">
                 {{ credential.name }} [{{ credential.type }}]
@@ -392,7 +392,7 @@ const openChooseOtherDockerConfigurationModal = computed(
             <div class="label">
               <span class="label-text">Code Path</span>
             </div>
-            <input id="name" v-model="stateRef.codePath" autocomplete="off" class="select select-bordered w-full"
+            <input id="name" v-model="stateRef.codePath" autocomplete="off" class="input input-bordered w-full"
               name="name" placeholder="Absolute path of code (optional)" type="text" />
             <p class="mt-1 text-xs text-gray-800">
               * You need to specify this if your code is not in root directory of git
@@ -406,18 +406,18 @@ const openChooseOtherDockerConfigurationModal = computed(
         <p class="text-xl font-medium">Upload Source Code</p>
         <!--    Source Code -->
         <div class="mt-4">
-          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="source_code">Select
-            Folder</label>
-          <div class="mx-auto max-w-md space-y-8">
-            <input ref="sourceCodeFileFieldRef"
-              class="w-full cursor-pointer rounded-md bg-gray-100 text-sm text-black file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-800 file:px-4 file:py-2 file:text-white file:hover:bg-gray-700 focus:outline-none"
-              directory multiple type="file" webkitdirectory />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Select Folder</span>
+            </div>
+            <input ref="sourceCodeFileFieldRef" directory multiple type="file" webkitdirectory
+              class="file-input file-input-bordered w-full" />
+          </label>
         </div>
 
         <!-- Upload Code -->
-        <FilledButton :loading="stateRef.isUploadingSourceCode" class="mt-4 w-full" type="secondary"
-          @click="uploadSourceCode">Upload Code
+        <FilledButton :loading="stateRef.isUploadingSourceCode" :disabled="enableGenerateConfigurationButton"
+          class="mt-4 w-full" type="primary" @click="uploadSourceCode">Upload Code
         </FilledButton>
       </div>
       <!--  Docker Source  -->
@@ -465,7 +465,7 @@ const openChooseOtherDockerConfigurationModal = computed(
 
     <div v-if="stateRef.isDockerConfigurationGenerated" class="w-1/2 max-w-md">
       <p class="text-xl font-medium">Generated Configuration</p>
-      <FilledButton class="mt-6 w-full" slim type="secondary" v-if="applicationSourceType !== 'image'"
+      <FilledButton class="mt-6 w-full" slim type="" v-if="applicationSourceType !== 'image'"
         :click="openChooseOtherDockerConfigurationModal">If detected service is incorrect, Click to change the
         configuration
       </FilledButton>
