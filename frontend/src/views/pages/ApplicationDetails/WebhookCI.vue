@@ -92,46 +92,44 @@ const regenerateWebhookTokenWithConfirmation = () => {
 </script>
 
 <template>
-  <!--  NOTE -->
-  <div class="mb-8 rounded-md border-l-4 border-yellow-500 bg-yellow-100 p-3 text-yellow-700" role="alert">
-    <p class="font-bold">NOTE:</p>
-    <p>Webhook CI is only available for applications deployed using git/docker</p>
-  </div>
-
-  <p class="inline-flex items-center gap-2 text-lg font-medium">Webhook Based CI</p>
-  <p class="text-sm text-gray-500">
-    You can configure your git/docker repository to trigger a new deployment on every push.
-  </p>
-
-  <!--  Link with a copy button -->
-  <div class="mt-6">
-    <div class="relative flex flex-row items-center gap-2">
-      <input :value="webhookTriggerLink" class="w-full rounded-md border border-gray-300 p-2" readonly type="text" />
-      <button
-        class="absolute bottom-1 right-1 top-1 rounded-md bg-secondary-200 px-3 text-sm font-bold hover:bg-secondary-300"
-        @click="copyToClipboard(webhookTriggerLink)">
-        Copy
-        <font-awesome-icon icon="fa-solid fa-copy" />
-      </button>
+  <div class="max-h-0">
+    <!--  NOTE -->
+    <div class="mb-8 rounded-md border-l-4 border-yellow-500 bg-yellow-100 p-3 text-yellow-700" role="alert">
+      <p class="font-bold">NOTE:</p>
+      <p>Webhook CI is only available for applications deployed using git/docker</p>
     </div>
-    <p class="mt-2 text-sm text-gray-500">
-      Copy the above link and paste it in your git/docker repository's webhook configuration.
+
+    <p class="inline-flex items-center gap-2 text-lg font-medium">Webhook Based CI</p>
+    <p class="text-sm text-gray-500">
+      You can configure your git/docker repository to trigger a new deployment on every push.
     </p>
-  </div>
 
-  <!-- Regenerate Webhook tolen -->
-  <div class="mt-6 flex w-full flex-row items-center justify-between rounded-md">
-    <div>
-      <p class="inline-flex items-center gap-2 text-lg font-medium">Regenerate Webhook Token</p>
-      <p class="text-secondary text-sm">Regenerate the webhook token if you think it is compromised.</p>
+    <!--  Link with a copy button -->
+    <div class="mt-6">
+      <div class="relative flex flex-row items-center gap-2">
+        <input :value="webhookTriggerLink" class="w-full rounded-md border border-gray-300 p-2" readonly type="text" />
+        <button
+          class="absolute bottom-1 right-1 top-1 rounded-md bg-secondary-200 px-3 text-sm font-bold hover:bg-secondary-300"
+          @click="copyToClipboard(webhookTriggerLink)">
+          Copy
+          <font-awesome-icon icon="fa-solid fa-copy" />
+        </button>
+      </div>
+      <p class="mt-2 text-sm text-gray-500">
+        Copy the above link and paste it in your git/docker repository's webhook configuration.
+      </p>
     </div>
-    <FilledButton
-      type="primary"
-      :loading="regenerateWebhookTokenLoading"
-      @click="regenerateWebhookTokenWithConfirmation">
-      Regenerate Token
-    </FilledButton>
+
+    <!-- Regenerate Webhook tolen -->
+    <div class="mt-6 flex w-full flex-row items-center justify-between rounded-md">
+      <div>
+        <p class="inline-flex items-center gap-2 text-lg font-medium">Regenerate Webhook Token</p>
+        <p class="text-secondary text-sm">Regenerate the webhook token if you think it is compromised.</p>
+      </div>
+      <FilledButton type="primary" :loading="regenerateWebhookTokenLoading"
+        @click="regenerateWebhookTokenWithConfirmation">
+        Regenerate Token
+      </FilledButton>
+    </div>
   </div>
 </template>
-
-<style scoped></style>

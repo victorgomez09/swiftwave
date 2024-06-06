@@ -9,17 +9,12 @@ const applicationUpdater = newApplicationUpdater(router.currentRoute.value.param
 </script>
 
 <template>
-  <EnvironmentVariablesEditor
-    :add-environment-variable="applicationUpdater.addEnvironmentVariable"
-    :delete-environment-variable="applicationUpdater.deleteEnvironmentVariable"
-    :environment-variables-keys="applicationUpdater.environmentVariableDetails.keys"
-    :environment-variables-map="applicationUpdater.environmentVariableDetails.map"
-    :on-variable-name-change="applicationUpdater.onEnvironmentVariableNameChange"
-    :on-variable-value-change="applicationUpdater.onEnvironmentVariableValueChange"
-  />
-
+  <div class="max-h-0">
+    <EnvironmentVariablesEditor :add-environment-variable="applicationUpdater.addEnvironmentVariable"
+      :delete-environment-variable="applicationUpdater.deleteEnvironmentVariable"
+      :environment-variables-keys="applicationUpdater.environmentVariableDetails.keys"
+      :environment-variables-map="applicationUpdater.environmentVariableDetails.map"
+      :on-variable-name-change="applicationUpdater.onEnvironmentVariableNameChange"
+      :on-variable-value-change="applicationUpdater.onEnvironmentVariableValueChange" />
+  </div>
 </template>
-
-<style scoped>
-
-</style>

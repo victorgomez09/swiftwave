@@ -90,16 +90,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="isGroupTagVisible"
-    :id="`group_${group}_tag`"
-    style="writing-mode: vertical-rl"
+  <div v-if="isGroupTagVisible" :id="`group_${group}_tag`" style="writing-mode: vertical-rl"
     class="absolute hidden rotate-180 cursor-pointer select-none overflow-hidden truncate text-nowrap rounded-r-md !border-2 !border-l-0 px-0.5 py-2 text-center text-sm transition-all hover:text-wrap">
     {{ decodeURI(group) }}
   </div>
-  <tr
-    v-if="group !== ''"
-    @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
+  <div v-if="group !== ''" @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
     class="cursor-pointer">
     <TableRow align="left">
       <div class="text-sm font-medium text-gray-900">
@@ -108,12 +103,8 @@ onMounted(() => {
     </TableRow>
     <TableRow align="center" class="text-sm text-gray-700"> {{ groupReplicasPercentage }}% live</TableRow>
     <TableRow align="center" flex>
-      <UptimeChart
-        :label="`${groupReplicasPercentage}%`"
-        :percentage="groupReplicasPercentage"
-        :hide-label="true"
-        :small="true"
-        :hide-hover="true" />
+      <UptimeChart :label="`${groupReplicasPercentage}%`" :percentage="groupReplicasPercentage" :hide-label="true"
+        :small="true" :hide-hover="true" />
     </TableRow>
     <TableRow align="center" class="text-sm text-gray-700">
       <font-awesome-icon icon="fa-solid fa-layer-group" class="mr-1" />
@@ -124,13 +115,9 @@ onMounted(() => {
       <FilledButton slim type="primary" v-if="isExpanded" :click="hideApplicationList">Hide Apps</FilledButton>
       <FilledButton slim type="primary" v-else :click="showApplicationList">View Apps</FilledButton>
     </TableRow>
-  </tr>
-  <ApplicationListRow
-    :is-visible="isApplicationListVisible"
-    v-for="application in applications"
-    :key="application.id"
-    :application="application"
-    :id="`group_${group}_${application.id}`" />
+  </div>
+  <ApplicationListRow :is-visible="isApplicationListVisible" v-for="application in applications" :key="application.id"
+    :application="application" :id="`group_${group}_${application.id}`" />
 </template>
 
 <style scoped></style>

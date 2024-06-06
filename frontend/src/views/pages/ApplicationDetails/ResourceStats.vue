@@ -95,17 +95,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="mx-auto w-full">
+  <section class="mx-auto w-full max-h-0">
     <div class="flex h-full w-full flex-col">
       <!-- Top Page bar   -->
       <PageBar>
         <template v-slot:title>Application Analytics</template>
         <template v-slot:subtitle>Monitor the resource analytics of your application</template>
         <template v-slot:buttons>
-          <select
-            class="focus:border-primary focus:ring-primary block rounded-md border-gray-300 shadow-sm sm:text-sm"
-            v-model="statsTimeframe"
-            @change="loadResourceAnalytics">
+          <select class="select select-bordered" v-model="statsTimeframe" @change="loadResourceAnalytics">
             <option value="last_1_hour">Last 1 hour</option>
             <option value="last_3_hours">Last 3 hours</option>
             <option value="last_6_hours">Last 6 hours</option>
@@ -121,25 +118,16 @@ onMounted(() => {
       </PageBar>
       <div class="mt-5 flex w-full flex-col gap-5 overflow-x-clip">
         <!--  Cpu usage series  -->
-        <AreaChartTimeSeries
-          title="CPU Usage"
-          :series="cpuUsageSeries"
-          :y-axis-formatter="
-            (val) => {
-              return val + ' %'
-            }
-          "
-          :y-axis-minimum-max="100" />
+        <AreaChartTimeSeries title="CPU Usage" :series="cpuUsageSeries" :y-axis-formatter="(val) => {
+          return val + ' %'
+        }
+          " :y-axis-minimum-max="100" />
         <!--  Memory usage series  -->
         <AreaChartTimeSeries title="Memory Usage" :series="memoryUsageSeries" :y-axis-formatter="humanizeMemoryMB" />
         <!--  Network usage series  -->
-        <AreaChartTimeSeries
-          title="Network Usage"
-          :series="networkUsageSeries"
+        <AreaChartTimeSeries title="Network Usage" :series="networkUsageSeries"
           :y-axis-formatter="humanizeNetworkSpeed" />
       </div>
     </div>
   </section>
 </template>
-
-<style scoped></style>

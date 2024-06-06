@@ -1,108 +1,110 @@
 <script setup></script>
 
 <template>
-  <div class="navbar">
-    <RouterLink
-      class="nav-element"
-      :to="{
+  <div class="menu bg-base-200 w-56 rounded-box h-full">
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Deployments',
         params: { id: $route.params.id }
       }">
-      Deployments
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Deployments
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Resource Stats',
         params: { id: $route.params.id }
       }">
-      Analytics
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Analytics
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Runtime Logs',
         params: { id: $route.params.id }
       }">
-      Runtime Log
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Runtime Log
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Ingress Rules',
         params: { id: $route.params.id }
       }">
-      Ingress Rules
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Ingress Rules
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Persistent Volumes',
         params: { id: $route.params.id }
       }">
-      Persistent Volume
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Persistent Volume
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Environment Variables',
         params: { id: $route.params.id }
       }">
-      Environment Variables
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Environment Variables
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Update Source',
         params: { id: $route.params.id }
       }">
-      Update App Source
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Update App Source
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Deployment Config',
         params: { id: $route.params.id }
       }">
-      Deploy Config
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Deploy Config
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Webhook CI',
         params: { id: $route.params.id }
       }">
-      Configure Webhook
-    </RouterLink>
-    <RouterLink
-      class="nav-element"
-      :to="{
+        Configure Webhook
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element" :to="{
         name: 'Application Details Manage',
         params: { id: $route.params.id }
       }">
-      Actions
-    </RouterLink>
-    <RouterLink
-      class="nav-element !text-red-500"
-      :to="{
+        Actions
+      </RouterLink>
+    </li>
+
+    <li>
+      <RouterLink class="nav-element !text-red-500" :to="{
         name: 'Application Details Danger Zone',
         params: { id: $route.params.id }
       }">
-      Destroy
-    </RouterLink>
+        Destroy
+      </RouterLink>
+    </li>
   </div>
 </template>
 
 <style scoped>
-.navbar {
-  @apply border-secondary flex h-min select-none flex-col flex-wrap gap-1 rounded-lg border p-1.5;
-}
-
-.nav-element {
-  @apply hover:bg-secondary text-secondary min-w-max rounded-md px-3 py-2 text-sm;
-}
-
 .router-link-exact-active {
-  @apply bg-secondary font-medium text-black;
+  @apply active;
 }
 </style>

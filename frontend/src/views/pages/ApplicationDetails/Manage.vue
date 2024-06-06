@@ -102,41 +102,41 @@ const openWebConsole = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start">
-    <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
-      <div>
-        <p class="inline-flex items-center gap-2 text-lg font-medium">SSH in Application</p>
-        <p class="text-secondary text-sm">You can access the shell of the container running this application.</p>
+  <div class="max-h-0">
+    <div class="flex flex-col items-start">
+      <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
+        <div>
+          <p class="inline-flex items-center gap-2 text-lg font-medium">SSH in Application</p>
+          <p class="text-secondary text-sm">You can access the shell of the container running this application.</p>
+        </div>
+        <FilledButton type="primary" @click="openWebConsole">
+          <font-awesome-icon icon="fa-solid fa-terminal" class="mr-2" />
+          Open Console
+        </FilledButton>
       </div>
-      <FilledButton type="primary" @click="openWebConsole">
-        <font-awesome-icon icon="fa-solid fa-terminal" class="mr-2" />
-        Open Console
-      </FilledButton>
-    </div>
-    <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
-      <div>
-        <p class="inline-flex items-center gap-2 text-lg font-medium">Restart Application</p>
-        <p class="text-secondary text-sm">
-          This will restart all the deployments of this application. <b>Your application will be down for a while.</b>
-        </p>
+      <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
+        <div>
+          <p class="inline-flex items-center gap-2 text-lg font-medium">Restart Application</p>
+          <p class="text-secondary text-sm">
+            This will restart all the deployments of this application. <b>Your application will be down for a while.</b>
+          </p>
+        </div>
+        <FilledButton type="primary" @click="restartApplicationWithConfirmation" :loading="restartApplicationLoading">
+          <font-awesome-icon icon="fa-solid fa-rotate-right" class="mr-2" />
+          Click to Restart
+        </FilledButton>
       </div>
-      <FilledButton type="primary" @click="restartApplicationWithConfirmation" :loading="restartApplicationLoading">
-        <font-awesome-icon icon="fa-solid fa-rotate-right" class="mr-2" />
-        Click to Restart
-      </FilledButton>
-    </div>
 
-    <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
-      <div>
-        <p class="inline-flex items-center gap-2 text-lg font-medium">Rebuild Application</p>
-        <p class="text-secondary text-sm">This will trigger a new deployment with the latest source code.</p>
+      <div class="flex w-full flex-row items-center justify-between rounded-md p-2">
+        <div>
+          <p class="inline-flex items-center gap-2 text-lg font-medium">Rebuild Application</p>
+          <p class="text-secondary text-sm">This will trigger a new deployment with the latest source code.</p>
+        </div>
+        <FilledButton type="primary" @click="rebuildApplicationWithConfirmation" :loading="rebuildApplicationLoading">
+          <font-awesome-icon icon="fa-solid fa-hammer" class="mr-2" />
+          Click to Rebuild
+        </FilledButton>
       </div>
-      <FilledButton type="primary" @click="rebuildApplicationWithConfirmation" :loading="rebuildApplicationLoading">
-        <font-awesome-icon icon="fa-solid fa-hammer" class="mr-2" />
-        Click to Rebuild
-      </FilledButton>
     </div>
   </div>
 </template>
-
-<style scoped></style>

@@ -9,16 +9,12 @@ const applicationUpdater = newApplicationUpdater(router.currentRoute.value.param
 </script>
 
 <template>
-  <PersistentVolumeBindingEditor
-    :add-persistent-volume-binding="applicationUpdater.addPersistentVolumeBinding"
-    :delete-persistent-volume-binding="applicationUpdater.deletePersistentVolumeBinding"
-    :on-mounting-path-change="applicationUpdater.onPersistentVolumeMountingPathChange"
-    :on-persistent-volume-change="applicationUpdater.onPersistentVolumeChange"
-    :persistent-volume-binding-keys="applicationUpdater.persistentVolumeBindingsDetails.keys"
-    :persistent-volume-bindings-map="applicationUpdater.persistentVolumeBindingsDetails.map"
-  />
+  <div class="max-h-0">
+    <PersistentVolumeBindingEditor :add-persistent-volume-binding="applicationUpdater.addPersistentVolumeBinding"
+      :delete-persistent-volume-binding="applicationUpdater.deletePersistentVolumeBinding"
+      :on-mounting-path-change="applicationUpdater.onPersistentVolumeMountingPathChange"
+      :on-persistent-volume-change="applicationUpdater.onPersistentVolumeChange"
+      :persistent-volume-binding-keys="applicationUpdater.persistentVolumeBindingsDetails.keys"
+      :persistent-volume-bindings-map="applicationUpdater.persistentVolumeBindingsDetails.map" />
+  </div>
 </template>
-
-<style scoped>
-
-</style>

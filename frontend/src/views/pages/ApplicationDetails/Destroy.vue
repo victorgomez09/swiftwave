@@ -47,33 +47,29 @@ deleteApplicationError((error) => {
 </script>
 
 <template>
-  <div class="w-full rounded-md border border-warning-200 bg-warning-100 p-2">
-    Use the below options with caution. These actions are non-reversible.
-  </div>
-  <div class="mt-3 w-full rounded-md border border-danger-200 bg-danger-100 p-2">
-    <b>Note :</b> You need to delete all the ingress rules pointed to this application manually before deleting this
-    application.
-  </div>
-  <div class="mt-3 flex flex-col items-start">
-    <p class="font-bold text-danger-500">Do you like to delete this application ?</p>
-    <p class="mt-2">This action will remove these stuffs -</p>
-    <ul class="list-inside list-disc">
-      <li>Application</li>
-      <li>Related Deployments</li>
-      <li>Deployment Logs</li>
-      <li>Environment Variables</li>
-      <li>Persistent Volume Bindings</li>
-      <li>Uploaded Source Code</li>
-    </ul>
+  <div class="max-h-0">
+    <div class="w-full rounded-md border border-warning-200 bg-warning-100 p-2">
+      Use the below options with caution. These actions are non-reversible.
+    </div>
+    <div class="mt-3 w-full rounded-md border border-danger-200 bg-danger-100 p-2">
+      <b>Note :</b> You need to delete all the ingress rules pointed to this application manually before deleting this
+      application.
+    </div>
+    <div class="mt-3 flex flex-col items-start">
+      <p class="font-bold text-danger-500">Do you like to delete this application ?</p>
+      <p class="mt-2">This action will remove these stuffs -</p>
+      <ul class="list-inside list-disc">
+        <li>Application</li>
+        <li>Related Deployments</li>
+        <li>Deployment Logs</li>
+        <li>Environment Variables</li>
+        <li>Persistent Volume Bindings</li>
+        <li>Uploaded Source Code</li>
+      </ul>
 
-    <FilledButton
-      class="mt-6"
-      type="danger"
-      :loading="deleteApplicationLoading"
-      :click="deleteApplicationWithConfirmation"
-      >Confirm & Delete Application
-    </FilledButton>
+      <FilledButton class="mt-6" type="danger" :loading="deleteApplicationLoading"
+        :click="deleteApplicationWithConfirmation">Confirm & Delete Application
+      </FilledButton>
+    </div>
   </div>
 </template>
-
-<style scoped></style>

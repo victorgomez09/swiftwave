@@ -371,256 +371,197 @@ const generateConfigurationForCustomDockerFile = (customDockerFile) => {
 
 // Create Git Credential
 const createGitCredentialModalRef = ref(null)
-const openCreateGitCredentialModal = computed(() => createGitCredentialModalRef.value?.openModal ?? (() => {}))
+const openCreateGitCredentialModal = computed(() => createGitCredentialModalRef.value?.openModal ?? (() => { }))
 
 // Create Image Registry Credential
 const createImageRegistryCredentialModalRef = ref(null)
 const openCreateImageRegistryCredentialModal = computed(
-  () => createImageRegistryCredentialModalRef.value?.openModal ?? (() => {})
+  () => createImageRegistryCredentialModalRef.value?.openModal ?? (() => { })
 )
 
 // Chose Other Docker Configuration
 const chooseOtherDockerConfigurationModalRef = ref(null)
 const openChooseOtherDockerConfigurationModal = computed(
-  () => chooseOtherDockerConfigurationModalRef.value?.openModal ?? (() => {})
+  () => chooseOtherDockerConfigurationModalRef.value?.openModal ?? (() => { })
 )
 </script>
 
 <template>
-  <!--  Modals -->
-  <CreateGitCredentialModal ref="createGitCredentialModalRef" :callback-on-create="refetchGitCredentialList" />
-  <CreateImageRegistryCredentialModal
-    ref="createImageRegistryCredentialModalRef"
-    :callback-on-create="refetchImageRegistryCredentialList" />
-  <ChooseOtherDockerConfigurationModal
-    ref="chooseOtherDockerConfigurationModalRef"
-    :on-apply-configuration="updateDockerConfiguration" />
+  <div class="max-h-0">
+    <!--  Modals -->
+    <CreateGitCredentialModal ref="createGitCredentialModalRef" :callback-on-create="refetchGitCredentialList" />
+    <CreateImageRegistryCredentialModal ref="createImageRegistryCredentialModalRef"
+      :callback-on-create="refetchImageRegistryCredentialList" />
+    <ChooseOtherDockerConfigurationModal ref="chooseOtherDockerConfigurationModalRef"
+      :on-apply-configuration="updateDockerConfiguration" />
 
-  <div :key="2" class="mb-5 flex w-full flex-row justify-between p-6 pt-0">
-    <div class="w-1/2 max-w-md">
-      <!--  Git as Source  -->
-      <div v-if="applicationSourceType === 'git'" class="w-full">
-        <p class="text-xl font-medium">Git Repository Information</p>
+    <div :key="2" class="mb-5 flex w-full flex-row justify-between p-6 pt-0">
+      <div class="w-1/2 max-w-md">
+        <!--  Git as Source  -->
+        <div v-if="applicationSourceType === 'git'" class="w-full">
+          <p class="text-xl font-medium">Git Repository Information</p>
 
-        <!-- Git Credentials -->
-        <div class="mt-6">
-          <label class="block text-sm font-medium text-gray-700" for="git_credential"
-            >Pick Git Credential (Optional)</label
-          >
-          <div class="mt-1">
-            <select
-              id="git_credential"
-              v-model="stateRef.gitCredentialID"
-              @change="fetchGitBranches"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-              <option selected value="0">No Credential</option>
-              <option v-for="credential in gitCredentials" :key="credential.id" :value="credential.id">
-                {{ credential.name }} [{{ credential.type }}]
-              </option>
-            </select>
+          <!-- Git Credentials -->
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700" for="git_credential">Pick Git Credential
+              (Optional)</label>
+            <div class="mt-1">
+              <select id="git_credential" v-model="stateRef.gitCredentialID" @change="fetchGitBranches"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                <option selected value="0">No Credential</option>
+                <option v-for="credential in gitCredentials" :key="credential.id" :value="credential.id">
+                  {{ credential.name }} [{{ credential.type }}]
+                </option>
+              </select>
+            </div>
+            <p class="mt-2 flex items-center text-sm">
+              Need to add credential for private repo ?
+              <a @click="openCreateGitCredentialModal" class="text-primary ml-1.5 cursor-pointer font-bold">Click
+                Here</a>
+            </p>
           </div>
-          <p class="mt-2 flex items-center text-sm">
-            Need to add credential for private repo ?
-            <a @click="openCreateGitCredentialModal" class="text-primary ml-1.5 cursor-pointer font-bold">Click Here</a>
-          </p>
+
+          <!-- Git Repository URL -->
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700" for="git_repo_url">Git Repository URL</label>
+            <div class="mt-1">
+              <input id="git_repo_url" v-model="stateRef.gitRepoUrl" v-debounce:1000ms="fetchGitBranches"
+                autocomplete="off"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                name="name" placeholder="Enter Git Repository URL" type="text" />
+            </div>
+          </div>
+
+          <!-- Git Branch -->
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700" for="name">Git Branch
+              <span class="ml-2 italic" v-if="fetchingGitBranches"><font-awesome-icon icon="fa-solid fa-spinner"
+                  class="animate-spin" />&nbsp;&nbsp;Fetching...</span></label>
+            <div class="mt-1">
+              <select id="git_credential" v-model="stateRef.gitBranch"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                <option selected disabled value="">Select Branch</option>
+                <option v-for="branch in availableGitBranches" :key="branch" :value="branch">
+                  {{ branch }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Code Path -->
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700" for="name">Code Path</label>
+            <div class="mt-1">
+              <input id="name" v-model="stateRef.codePath" autocomplete="off"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                name="name" placeholder="Absolute path of code (optional)" type="text" />
+              <p class="mt-1 text-xs text-gray-800">
+                * You need to specify this if your code is not in root directory of git
+              </p>
+            </div>
+          </div>
         </div>
 
-        <!-- Git Repository URL -->
-        <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="git_repo_url">Git Repository URL</label>
-          <div class="mt-1">
-            <input
-              id="git_repo_url"
-              v-model="stateRef.gitRepoUrl"
-              v-debounce:1000ms="fetchGitBranches"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="name"
-              placeholder="Enter Git Repository URL"
-              type="text" />
+        <!--  File upload source  -->
+        <div v-else-if="applicationSourceType === 'sourceCode'" class="w-full">
+          <p class="text-xl font-medium">Upload Source Code</p>
+          <!--    Source Code -->
+          <div class="mt-4">
+            <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="source_code">Select
+              Folder</label>
+            <div class="mx-auto max-w-md space-y-8">
+              <input ref="sourceCodeCompressedFileFieldRef"
+                class="w-full cursor-pointer rounded-md bg-gray-100 text-sm text-black file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-800 file:px-4 file:py-2 file:text-white file:hover:bg-gray-700 focus:outline-none"
+                directory multiple type="file" webkitdirectory />
+            </div>
           </div>
-        </div>
 
-        <!-- Git Branch -->
-        <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="name"
-            >Git Branch
-            <span class="ml-2 italic" v-if="fetchingGitBranches"
-              ><font-awesome-icon icon="fa-solid fa-spinner" class="animate-spin" />&nbsp;&nbsp;Fetching...</span
-            ></label
-          >
-          <div class="mt-1">
-            <select
-              id="git_credential"
-              v-model="stateRef.gitBranch"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-              <option selected disabled value="">Select Branch</option>
-              <option v-for="branch in availableGitBranches" :key="branch" :value="branch">
-                {{ branch }}
-              </option>
-            </select>
+          <!-- Upload Code -->
+          <FilledButton :loading="stateRef.isUploadingSourceCode" class="mt-4 w-full" type="secondary"
+            @click="uploadSourceCode">Upload Code
+          </FilledButton>
+        </div>
+        <!--  Docker Source  -->
+        <div v-else-if="applicationSourceType === 'image'" class="w-full">
+          <!-- Docker Image URL-->
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700" for="docker_image">Docker Image <span
+                class="text-red-600"> *</span>
+            </label>
+            <div class="mt-1">
+              <input id="docker_image" v-model="stateRef.dockerImage" autocomplete="off"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                name="name" placeholder="Enter Docker Image URL" type="text" />
+            </div>
           </div>
-        </div>
-
-        <!-- Code Path -->
-        <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="name">Code Path</label>
-          <div class="mt-1">
-            <input
-              id="name"
-              v-model="stateRef.codePath"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="name"
-              placeholder="Absolute path of code (optional)"
-              type="text" />
-            <p class="mt-1 text-xs text-gray-800">
-              * You need to specify this if your code is not in root directory of git
+          <!-- Image Registry Credentials -->
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700" for="image_registry_credential">Pick Image Registry
+              Credential (Optional)
+            </label>
+            <div class="mt-1">
+              <select id="image_registry_credential" v-model="stateRef.imageRegistryCredentialID"
+                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                <option selected value="0">No Credential</option>
+                <option v-for="credential in imageRegistryCredentials" :key="credential.id" :value="credential.id">
+                  {{ credential.username }} - {{ credential.url }}
+                </option>
+              </select>
+            </div>
+            <p class="mt-2 flex items-center text-sm">
+              Need to add credential for private registry ?
+              <a @click="openCreateImageRegistryCredentialModal"
+                class="text-primary ml-1.5 cursor-pointer font-bold">Click Here</a>
             </p>
           </div>
         </div>
-      </div>
 
-      <!--  File upload source  -->
-      <div v-else-if="applicationSourceType === 'sourceCode'" class="w-full">
-        <p class="text-xl font-medium">Upload Source Code</p>
-        <!--    Source Code -->
-        <div class="mt-4">
-          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="source_code"
-            >Select Folder</label
-          >
-          <div class="mx-auto max-w-md space-y-8">
-            <input
-              ref="sourceCodeCompressedFileFieldRef"
-              class="w-full cursor-pointer rounded-md bg-gray-100 text-sm text-black file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-800 file:px-4 file:py-2 file:text-white file:hover:bg-gray-700 focus:outline-none"
-              directory
-              multiple
-              type="file"
-              webkitdirectory />
-          </div>
-        </div>
-
-        <!-- Upload Code -->
-        <FilledButton
-          :loading="stateRef.isUploadingSourceCode"
-          class="mt-4 w-full"
-          type="secondary"
-          @click="uploadSourceCode"
-          >Upload Code
+        <FilledButton :disabled="!enableGenerateConfigurationButton" :loading="dockerConfigGeneratorGenerating"
+          class="mt-6 w-full" type="primary" @click="generateConfiguration">Re-Generate Configuration
         </FilledButton>
       </div>
-      <!--  Docker Source  -->
-      <div v-else-if="applicationSourceType === 'image'" class="w-full">
-        <!-- Docker Image URL-->
-        <div class="mt-6">
-          <label class="block text-sm font-medium text-gray-700" for="docker_image"
-            >Docker Image <span class="text-red-600"> *</span>
-          </label>
-          <div class="mt-1">
-            <input
-              id="docker_image"
-              v-model="stateRef.dockerImage"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="name"
-              placeholder="Enter Docker Image URL"
-              type="text" />
-          </div>
-        </div>
-        <!-- Image Registry Credentials -->
+
+      <!-- just for padding purpose -->
+      <div></div>
+
+      <div v-if="stateRef.isDockerConfigurationGenerated" class="w-1/2 max-w-md">
+        <p class="text-xl font-medium">Generated Configuration</p>
+        <FilledButton class="mt-6 w-full" slim type="secondary" v-if="applicationSourceType !== 'image'"
+          :click="openChooseOtherDockerConfigurationModal">If detected service is incorrect, Click to change the
+          configuration
+        </FilledButton>
+        <p class="mt-4 font-medium text-gray-700">
+          🏂 Detected Service Name -
+          <span class="text-primary font-normal">{{ stateRef.detectedServiceName }}</span>
+        </p>
+        <FilledButton v-if="applicationSourceType !== 'image'" class="mt-4 w-full" @click="openDockerFileEditor">View /
+          Modify Dockerfile
+        </FilledButton>
+        <!-- Docker Command-->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="image_registry_credential"
-            >Pick Image Registry Credential (Optional)
+          <label class="block text-sm font-medium text-gray-700" for="docker_command">Docker Image Command (Optional)
           </label>
           <div class="mt-1">
-            <select
-              id="image_registry_credential"
-              v-model="stateRef.imageRegistryCredentialID"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-              <option selected value="0">No Credential</option>
-              <option v-for="credential in imageRegistryCredentials" :key="credential.id" :value="credential.id">
-                {{ credential.username }} - {{ credential.url }}
-              </option>
-            </select>
+            <input id="docker_command" v-model="stateRef.command" autocomplete="off"
+              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+              name="docker_command" placeholder="Enter Docker Command" type="text" />
+            <p class="mt-1 text-xs text-gray-800">* It's just to override the default command of docker image</p>
           </div>
-          <p class="mt-2 flex items-center text-sm">
-            Need to add credential for private registry ?
-            <a @click="openCreateImageRegistryCredentialModal" class="text-primary ml-1.5 cursor-pointer font-bold"
-              >Click Here</a
-            >
-          </p>
+        </div>
+        <div v-if="stateRef.dockerBuildArgs.length !== 0">
+          <p class="mt-4 font-medium text-gray-700">🐳 Docker Build Args</p>
+          <div class="w-full">
+            <BuildArgInput v-for="buildArg in stateRef.dockerBuildArgs" :key="buildArg.key" :arg-key="buildArg.key"
+              :description="buildArg.description" :update-build-arg="(val) => updateBuildArg(buildArg.key, val)"
+              :value="stateRef.buildArgs[buildArg.key]" />
+          </div>
         </div>
       </div>
 
-      <FilledButton
-        :disabled="!enableGenerateConfigurationButton"
-        :loading="dockerConfigGeneratorGenerating"
-        class="mt-6 w-full"
-        type="primary"
-        @click="generateConfiguration"
-        >Re-Generate Configuration
-      </FilledButton>
+      <!-- Dockerfile Editor -->
+      <DockerfileEditor :close-modal="closeDockerFileEditor" :code="stateRef.dockerFile"
+        :docker-configuration-generating="dockerConfigGeneratorGenerating" :is-open="stateRef.isDockerFileEditorOpen"
+        :submit="generateConfigurationForCustomDockerFile" />
     </div>
-
-    <!-- just for padding purpose -->
-    <div></div>
-
-    <div v-if="stateRef.isDockerConfigurationGenerated" class="w-1/2 max-w-md">
-      <p class="text-xl font-medium">Generated Configuration</p>
-      <FilledButton
-        class="mt-6 w-full"
-        slim
-        type="secondary"
-        v-if="applicationSourceType !== 'image'"
-        :click="openChooseOtherDockerConfigurationModal"
-        >If detected service is incorrect, Click to change the configuration
-      </FilledButton>
-      <p class="mt-4 font-medium text-gray-700">
-        🏂 Detected Service Name -
-        <span class="text-primary font-normal">{{ stateRef.detectedServiceName }}</span>
-      </p>
-      <FilledButton v-if="applicationSourceType !== 'image'" class="mt-4 w-full" @click="openDockerFileEditor"
-        >View / Modify Dockerfile
-      </FilledButton>
-      <!-- Docker Command-->
-      <div class="mt-4">
-        <label class="block text-sm font-medium text-gray-700" for="docker_command"
-          >Docker Image Command (Optional)
-        </label>
-        <div class="mt-1">
-          <input
-            id="docker_command"
-            v-model="stateRef.command"
-            autocomplete="off"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            name="docker_command"
-            placeholder="Enter Docker Command"
-            type="text" />
-          <p class="mt-1 text-xs text-gray-800">* It's just to override the default command of docker image</p>
-        </div>
-      </div>
-      <div v-if="stateRef.dockerBuildArgs.length !== 0">
-        <p class="mt-4 font-medium text-gray-700">🐳 Docker Build Args</p>
-        <div class="w-full">
-          <BuildArgInput
-            v-for="buildArg in stateRef.dockerBuildArgs"
-            :key="buildArg.key"
-            :arg-key="buildArg.key"
-            :description="buildArg.description"
-            :update-build-arg="(val) => updateBuildArg(buildArg.key, val)"
-            :value="stateRef.buildArgs[buildArg.key]" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Dockerfile Editor -->
-    <DockerfileEditor
-      :close-modal="closeDockerFileEditor"
-      :code="stateRef.dockerFile"
-      :docker-configuration-generating="dockerConfigGeneratorGenerating"
-      :is-open="stateRef.isDockerFileEditorOpen"
-      :submit="generateConfigurationForCustomDockerFile" />
   </div>
 </template>
-
-<style scoped></style>

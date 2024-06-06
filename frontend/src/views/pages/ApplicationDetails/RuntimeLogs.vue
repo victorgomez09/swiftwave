@@ -71,28 +71,29 @@ const restartRuntimeLog = () => {
 </script>
 
 <template>
-  <PageBar>
-    <template v-slot:title>
-      <span class="flex flex-row items-center gap-2">Runtime Logs<StatusPulse type="success" /></span>
-    </template>
-    <template v-slot:subtitle>You can check live logs of your application</template>
-    <template v-slot:buttons>
-      <select
-        class="focus:border-primary focus:ring-primary block rounded-md border-gray-300 shadow-sm sm:text-sm"
-        v-model="statsTimeframe"
-        @change="restartRuntimeLog">
-        <option value="live">Live</option>
-        <option value="last_1_hour">From last 1 hour</option>
-        <option value="last_3_hours">From last 3 hours</option>
-        <option value="last_6_hours">From last 6 hours</option>
-        <option value="last_12_hours">From last 12 hours</option>
-        <option value="last_24_hours">From last 24 hours</option>
-        <option value="lifetime">Lifetime</option>
-      </select>
-    </template>
-  </PageBar>
+  <div class="max-h-0">
+    <PageBar>
+      <template v-slot:title>
+        <span class="flex flex-row items-center gap-2">Runtime Logs
+          <StatusPulse type="success" />
+        </span>
+      </template>
+      <template v-slot:subtitle>You can check live logs of your application</template>
+      <template v-slot:buttons>
+        <select class="select select-bordered" v-model="statsTimeframe" @change="restartRuntimeLog">
+          <option value="live">Live</option>
+          <option value="last_1_hour">From last 1 hour</option>
+          <option value="last_3_hours">From last 3 hours</option>
+          <option value="last_6_hours">From last 6 hours</option>
+          <option value="last_12_hours">From last 12 hours</option>
+          <option value="last_24_hours">From last 24 hours</option>
+          <option value="lifetime">Lifetime</option>
+        </select>
+      </template>
+    </PageBar>
 
-  <div id="terminal_2" class="mt-3 w-full max-w-7xl overflow-hidden rounded-md bg-black p-2"></div>
+    <div id="terminal_2" class="mt-3 w-full max-w-7xl overflow-hidden rounded-md bg-black p-2"></div>
+  </div>
 </template>
 
 <style scoped></style>

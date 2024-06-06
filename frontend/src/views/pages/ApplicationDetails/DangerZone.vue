@@ -75,7 +75,7 @@ restartApplicationError((error) => {
   toast.error(error.message)
 })
 
-const restartApplicationWithConfirmation = (()=>{
+const restartApplicationWithConfirmation = (() => {
   const confirmation = confirm('Are you sure that you want to restart this application ?')
   if (confirmation) {
     restartApplication()
@@ -117,7 +117,7 @@ rebuildApplicationError((error) => {
   toast.error(error.message)
 })
 
-const rebuildApplicationWithConfirmation = (()=>{
+const rebuildApplicationWithConfirmation = (() => {
   const confirmation = confirm('Are you sure that you want to rebuild this application ?')
   if (confirmation) {
     rebuildApplication()
@@ -128,23 +128,24 @@ const rebuildApplicationWithConfirmation = (()=>{
 </script>
 
 <template>
-  <div class="mt-3 flex flex-col items-start">
-    <div
-      class="w-full flex flex-row justify-between items-center p-2 rounded-md">
+  <div class="mt-3 flex flex-col items-start max-h-0">
+    <div class="w-full flex flex-row justify-between items-center p-2 rounded-md">
       <div>
         <p class="font-medium text-lg inline-flex items-center gap-2">Restart Application</p>
-        <p class="text-secondary-700 text-sm">This will restart all the deployments of this application. <b>Your application will be down for a while.</b></p>
+        <p class="text-secondary-700 text-sm">This will restart all the deployments of this application. <b>Your
+            application will be down for a while.</b></p>
       </div>
-      <FilledButton type="primary" @click="restartApplicationWithConfirmation" :loading="restartApplicationLoading">Click to Restart</FilledButton>
+      <FilledButton type="primary" @click="restartApplicationWithConfirmation" :loading="restartApplicationLoading">
+        Click to Restart</FilledButton>
     </div>
 
-    <div
-      class="w-full flex flex-row justify-between items-center p-2 rounded-md">
+    <div class="w-full flex flex-row justify-between items-center p-2 rounded-md">
       <div>
         <p class="font-medium text-lg inline-flex items-center gap-2">Rebuild Application</p>
         <p class="text-secondary-700 text-sm">This will trigger a new deployment with the latest source code. </p>
       </div>
-      <FilledButton type="primary" @click="rebuildApplicationWithConfirmation" :loading="rebuildApplicationLoading">Click to Rebuild</FilledButton>
+      <FilledButton type="primary" @click="rebuildApplicationWithConfirmation" :loading="rebuildApplicationLoading">
+        Click to Rebuild</FilledButton>
     </div>
 
 
@@ -165,14 +166,7 @@ const rebuildApplicationWithConfirmation = (()=>{
       <b>Note :</b> You need to delete all the ingress rules pointed to this application manually.
     </div>
 
-    <FilledButton
-      class="mt-6"
-      type="danger"
-      :loading="deleteApplicationLoading"
+    <FilledButton class="mt-6" type="danger" :loading="deleteApplicationLoading"
       :click="deleteApplicationWithConfirmation">Confirm & Delete Application</FilledButton>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -19,7 +19,7 @@ const props = defineProps({
   callbackOnUpdate: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -109,13 +109,8 @@ defineExpose({
       <ComboBoxComponent :value="selectedGroup" :options="applicationGroups" :on-change="(e) => (selectedGroup = e)" />
     </template>
     <template v-slot:footer>
-      <FilledButton
-        class="w-full"
-        :click="updateApplicationGroup"
-        :loading="isDomainRegistering"
-        type="primary"
-        :disabled="selectedGroup === ''"
-        >Assign Application to Group
+      <FilledButton class="w-full" :click="updateApplicationGroup" :loading="isDomainRegistering" type="primary"
+        :disabled="selectedGroup === ''">Assign Application to Group
       </FilledButton>
     </template>
   </ModalDialog>

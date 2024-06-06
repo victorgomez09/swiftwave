@@ -4,12 +4,8 @@ import FilledButton from '@/views/components/FilledButton.vue'
 import { useToast } from 'vue-toastification'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
 import { computed, reactive, ref } from 'vue'
 import ModalDialog from '@/views/components/ModalDialog.vue'
-import PersistentVolumeRow from '@/views/partials/PersistentVolumeCard.vue'
 import PersistentVolumeBackups from '@/views/partials/PersistentVolumeBackups.vue'
 import PersistentVolumeRestores from '@/views/partials/PersistentVolumeRestores.vue'
 import { getHttpBaseUrl } from '@/vendor/utils.js'
@@ -157,7 +153,7 @@ const uploadAndRestoreNow = () => {
         uploadPercentage.value = Math.round((progressEvent.loaded / progressEvent.total) * 100)
       }
     })
-    .then((e) => {
+    .then(() => {
       isRestoreNowButtonLoading.value = false
       toast.success('Restore initiated successfully')
       closeRestoreNowModal()
@@ -388,7 +384,7 @@ const showDetails = (volume) => {
       </template>
     </PageBar>
 
-    <!-- Table -->
+    <!-- Grid with cards -->
     <div
       class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
       <PersistentVolumeCard :delete-persistent-volume-with-confirmation="deletePersistentVolumeWithConfirmation"
