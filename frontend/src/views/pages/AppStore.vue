@@ -1,7 +1,5 @@
 <script setup>
 import { onMounted, ref, shallowRef, watch } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import FilledButton from '@/views/components/FilledButton.vue'
 import ModalDialog from '@/views/components/ModalDialog.vue'
 import OutlinedButton from '@/views/components/OutlinedButton.vue'
 import DotLoader from '@/views/components/DotLoader.vue'
@@ -90,8 +88,13 @@ const openStackFileForInstall = (stack) => {
     <div class="mb-2 flex w-full flex-row justify-center gap-3 p-2">
       <!--   Search Bar   -->
       <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow border-none focus:outline-none"  v-model="searchText" v-debounce:300ms="searchApps" placeholder="Search" />
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+        <input type="text" class="grow border-none focus:outline-none" v-model="searchText"
+          v-debounce:300ms="searchApps" placeholder="Search" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+          <path fill-rule="evenodd"
+            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+            clip-rule="evenodd" />
+        </svg>
       </label>
       <!--   Settings   -->
       <!--  TODO: Will be added soon   -->
@@ -111,33 +114,31 @@ const openStackFileForInstall = (stack) => {
       <p class="ml-4 mt-10 text-xl font-medium">No apps found</p>
       <p class="mt-3">
         If you think the app should be here, Raise a request in
-        <a href="https://github.com/swiftwave-org/app-store" target="_blank" class="text-primary font-semibold"
-          >Swiftwave App Store</a
-        >.
+        <a href="https://github.com/swiftwave-org/app-store" target="_blank"
+          class="text-primary font-semibold">Swiftwave App Store</a>.
       </p>
     </div>
-    <!--    Apps List (If available) -->
+    <!-- Apps List (If available) -->
     <div v-else class="scrollbox grid grid-cols-4 gap-4 overflow-auto pr-2">
       <!-- Component  -->
-      <div
-        @click="() => chooseApp(app)"
-        v-for="app in appsShown"
-        :key="app.id"
-        class="hover:border-primary border-secondary h-[180px] cursor-pointer rounded-xl border p-2 hover:shadow-lg">
-        <!--    Header    -->
-        <div class="flex flex-row gap-3 border-b pb-2">
-          <div class="h-12 w-12 rounded-md p-1.5">
-            <img :src="app.logo" class="h-full w-full" :alt="app.title" />
+      <div @click="() => chooseApp(app)" v-for="app in appsShown" :key="app.id"
+        class="card bg-base-300 cursor-pointer h-40 hover:shadow">
+        <div class="card-body p-4">
+          <!-- Header -->
+          <div class="flex flex-row gap-3 border-b pb-2">
+            <div class="h-12 w-12 rounded-md p-1.5">
+              <img :src="app.logo" class="h-full w-full" :alt="app.title" />
+            </div>
+            <div>
+              <p class="text-base font-semibold text-gray-800">{{ app.title }}</p>
+              <p class="text-sm">{{ app.category }}</p>
+            </div>
           </div>
-          <div>
-            <p class="text-base font-semibold text-gray-800">{{ app.title }}</p>
-            <p class="text-sm">{{ app.category }}</p>
-          </div>
+          <!-- Description Body -->
+          <p class="truncate">
+            {{ app.description }}
+          </p>
         </div>
-        <!--    Description Body    -->
-        <p class="mt-2 overflow-hidden truncate p-1 text-justify text-sm text-secondary-800 h-full">
-          {{ app.description }}
-        </p>
       </div>
     </div>
   </section>
@@ -147,12 +148,8 @@ const openStackFileForInstall = (stack) => {
     <template v-slot:body>
       <p>Choose the preferred version -</p>
       <div class="mt-6 flex flex-col gap-2">
-        <OutlinedButton
-          :click="() => openStackFileForInstall(stack)"
-          class="w-full"
-          type="primary"
-          v-for="stack in selectedApp.stacks"
-          :key="stack.id">
+        <OutlinedButton :click="() => openStackFileForInstall(stack)" class="w-full" type="primary"
+          v-for="stack in selectedApp.stacks" :key="stack.id">
           {{ stack.title }}
         </OutlinedButton>
       </div>
