@@ -81,6 +81,8 @@ import {
   faUserTie,
   faVault,
   faWrench,
+  faSun,
+  faMoon,
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -177,6 +179,8 @@ library.add(
   faPeopleGroup,
   faLayerGroup,
   faCircleNotch,
+  faSun,
+  faMoon,
   faPersonDigging
 )
 

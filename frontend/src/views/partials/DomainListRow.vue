@@ -1,10 +1,7 @@
 <script setup>
-import Badge from '@/views/components/Badge.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
-import TextButton from '@/views/components/TextButton.vue'
-import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 
@@ -47,41 +44,62 @@ const verifyDnsPointing = async () => {
 </script>
 
 <template>
-  <tr>
-    <TableRow align="left">
-      <div class="text-sm font-medium text-gray-900">{{ domain.name }}</div>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="domain.sslStatus === 'none'" type="secondary">N/A</Badge>
-      <Badge v-else-if="domain.sslStatus === 'pending'" type="warning">Pending</Badge>
-      <Badge v-else-if="domain.sslStatus === 'issued'" type="success">Issued</Badge>
-      <Badge v-else-if="domain.sslStatus === 'failed'" type="danger">Failed</Badge>
-    </TableRow>
-    <TableRow align="center" flex>
-      <FilledButton :click="() => viewSsl(domain.id)" :disabled="domain.sslStatus !== 'issued'" slim type="secondary"
-        >View SSL
-      </FilledButton>
-    </TableRow>
-    <TableRow align="center">
-      <div class="text-sm text-gray-900">
-        {{ domain.sslIssuer !== '' ? domain.sslIssuer : '---' }}
+  <div class="indicator w-full">
+    <span class="indicator-item badge badge-sm" :class="{
+      'badge-secondary': domain.sslStatus === 'none',
+      'badge-warning': domain.sslStatus === 'pending',
+      'badge-success': domain.sslStatus === 'issued',
+      'badge-error': domain.sslStatus === 'failed'
+    }"></span>
+
+    <div class="card bg-base-300 w-full">
+      <div class="card-body p-4">
+        <h3 class="card-title">{{ domain.name }}</h3>
+
+        <div class="flex flex-col gap-2">
+          <!-- Status -->
+          <div class="flex gap-2">
+            <span>Status:</span>
+            <span v-if="domain.sslStatus === 'none'" class="font-semibold">N/A</span>
+            <span v-else-if="domain.sslStatus === 'pending'" class="font-semibold">Pending</span>
+            <span v-else-if="domain.sslStatus === 'issued'" class="font-semibold">Issued</span>
+            <span v-else-if="domain.sslStatus === 'failed'" class="font-semibold">Failed</span>
+          </div>
+
+          <!-- Issuer -->
+          <div class="flex gap-2">
+            <span>Issuer:</span>
+            <span class="font-semibold">{{ domain.sslIssuer !== '' ? domain.sslIssuer : '---' }}</span>
+          </div>
+
+          <!-- Auto renew -->
+          <div class="flex gap-2">
+            <span>Auto renew:</span>
+            <span v-if="domain.sslAutoRenew" class="font-semibold">Enabled</span>
+            <span v-else class="font-semibold">Disabled</span>
+          </div>
+
+          <div class="card-actions justify-end items-center">
+            <FilledButton :click="() => viewSsl(domain.id)" :disabled="domain.sslStatus !== 'issued'" slim
+              type="secondary" size="sm">
+              View SSL
+            </FilledButton>
+
+            <!-- More actions -->
+            <div class="dropdown">
+              <FilledButton tabindex="0" role="button" size="sm">
+                <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
+              </FilledButton>
+              <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li @click="issueSsl(domain)"><a>Issue SSL</a></li>
+                <li @click="verifyDnsPointing"><a>Verify DNS</a></li>
+                <div class="divider divider-vertical m-0 p-0"></div>
+                <li @click="deleteDomain(domain)" class="text-error"><a>Delete</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-    </TableRow>
-    <TableRow align="center" flex>
-      <FilledButton :click="() => issueSsl(domain)" slim type="secondary">Issue SSL</FilledButton>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="domain.sslAutoRenew" type="success">Enabled</Badge>
-      <Badge v-else type="danger">Disabled</Badge>
-    </TableRow>
-
-    <TableRow align="center" flex>
-      <FilledButton :click="verifyDnsPointing" :loading="verifyingDns" slim type="secondary">Verify DNS</FilledButton>
-    </TableRow>
-    <TableRow align="right">
-      <TextButton :click="() => deleteDomain(domain)" type="danger">Delete</TextButton>
-    </TableRow>
-  </tr>
+    </div>
+  </div>
 </template>
-
-<style scoped></style>

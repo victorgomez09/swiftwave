@@ -158,18 +158,13 @@ defineExpose({
         </TableRow>
         <TableRow align="center">
           <div class="text-sm text-gray-900">
-            <a
-              v-if="ingressRule.protocol === 'http' || ingressRule.protocol === 'https'"
+            <a v-if="ingressRule.protocol === 'http' || ingressRule.protocol === 'https'"
               :href="ingressRule.protocol + '://' + ingressRule.domain.name + ':' + ingressRule.port.toString()"
-              target="_blank"
-              >{{ ingressRule.protocol }}://{{ ingressRule.domain.name }}:{{ ingressRule.port }}</a
-            >
-            <a v-else-if="ingressRule.protocol === 'tcp'" href="javascript:void(0);"
-              >tcp://&lt;server-ip&gt;:{{ ingressRule.port }}</a
-            >
-            <a v-else-if="ingressRule.protocol === 'udp'" href="javascript:void(0);"
-              >udp://&lt;server-ip&gt;:{{ ingressRule.port }}</a
-            >
+              target="_blank">{{ ingressRule.protocol }}://{{ ingressRule.domain.name }}:{{ ingressRule.port }}</a>
+            <a v-else-if="ingressRule.protocol === 'tcp'" href="javascript:void(0);">tcp://&lt;server-ip&gt;:{{
+              ingressRule.port }}</a>
+            <a v-else-if="ingressRule.protocol === 'udp'" href="javascript:void(0);">udp://&lt;server-ip&gt;:{{
+              ingressRule.port }}</a>
             <a v-else href="javascript:void(0);"><i>Unknown</i></a>
           </div>
         </TableRow>
@@ -181,9 +176,8 @@ defineExpose({
             <Badge v-if="ingressRule.targetType === 'externalService'" type="warning">External Service</Badge>
             <Badge v-else-if="ingressRule.targetType === 'application'" type="success">Application</Badge>
             &nbsp;&nbsp;
-            <a v-if="ingressRule.targetType === 'application'" href="javascript:void(0);"
-              >{{ ingressRule.application.name }}:{{ ingressRule.targetPort }}</a
-            >
+            <a v-if="ingressRule.targetType === 'application'" href="javascript:void(0);">{{
+              ingressRule.application.name }}:{{ ingressRule.targetPort }}</a>
             <a v-else href="javascript:void(0);">{{ ingressRule.externalService }}:{{ ingressRule.targetPort }}</a>
           </div>
         </TableRow>

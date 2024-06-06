@@ -1,7 +1,6 @@
 <script setup>
 import { useAuthStore } from '@/store/auth.js'
 import { RouterLink, useRouter } from 'vue-router'
-import Logo from '@/assets/images/logo-full-inverse-subtitle.png'
 import ChangePasswordModal from '@/views/partials/ChangePasswordModal.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import SideBarOption from '@/views/partials/SideBarOption.vue'
@@ -99,8 +98,7 @@ const startCountDown = () => {
 </script>
 
 <template>
-  <aside
-    v-if="isShowSideBar"
+  <aside v-if="isShowSideBar"
     class="scrollbox bg-base-200 shadow flex h-screen flex-col overflow-y-auto border-r px-2 pb-2 pt-6">
     <div class="px-3">
       <RouterLink to="/">
@@ -253,8 +251,7 @@ const startCountDown = () => {
                 <font-awesome-icon icon="fa-solid fa-wrench" />
                 <span class="mx-2 text-sm font-medium">System Configuration</span>
               </RouterLink>
-              <div
-                @click="systemRestart"
+              <div @click="systemRestart"
                 class="flex transform cursor-pointer items-center rounded-lg px-3 py-2  transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700">
                 <font-awesome-icon icon="fa-solid fa-power-off" />
                 <span class="mx-2 text-sm font-medium">System Restart</span>
@@ -282,18 +279,28 @@ const startCountDown = () => {
                 <font-awesome-icon icon="fa-solid fa-key" />
                 <span class="mx-2 text-sm font-medium">Change Password</span>
               </div>
-              <a
-                class="flex transform cursor-pointer items-center rounded-lg px-3 py-2  transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              <a class="flex transform cursor-pointer items-center rounded-lg px-3 py-2  transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
                 @click="logoutWithConfirmation">
                 <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
                 <span class="mx-2 text-sm font-medium">Logout</span>
+              </a>
+              <a
+                class="flex transform cursor-pointer items-center rounded-lg px-3 py-2  transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700">
+                <!-- this hidden checkbox controls the state -->
+                <label class="swap swap-rotate items-center">
+                  <input type="checkbox" class="theme-controller appearance-none" value="dim" />
+                  <!-- sun icon -->
+                  <font-awesome-icon icon="fa-solid fa-sun" class="swap-off" />
+                  <font-awesome-icon icon="fa-solid fa-moon" class="swap-on" />
+                  <span class="mx-6 text-sm font-medium">Change theme</span>
+                </label>
               </a>
             </div>
           </template>
         </SideBarOption>
       </nav>
     </div>
-    <div class="flex justify-between px-2 text-sm font-medium text-white">
+    <div class="flex justify-between px-2 text-sm font-medium text-base-content">
       <span>Auto-logout {{ authStore.sessionRelativeTimeoutStatus }}</span>
       <span> v{{ swVersion }}</span>
     </div>

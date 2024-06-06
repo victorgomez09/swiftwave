@@ -10,24 +10,19 @@ defineProps({
   click: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 </script>
 
 <template>
-  <a
-    :class="{
-      'text-primary': type === 'primary',
-      'text-secondary-600': type === 'secondary',
-      'text-success-600': type === 'success',
-      'text-danger-600': type === 'danger',
-      'text-warning-600': type === 'warning'
-    }"
-    class="cursor-pointer"
-    @click.prevent="click">
+  <a :class="{
+    'text-primary': type === 'primary',
+    'text-secondary-600': type === 'secondary',
+    'text-success-600': type === 'success',
+    'text-danger-600': type === 'danger',
+    'text-warning-600': type === 'warning'
+  }" class="cursor-pointer" @click.prevent="click">
     <slot></slot>
   </a>
 </template>
-
-<style scoped></style>

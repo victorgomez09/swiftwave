@@ -7,11 +7,11 @@ import IngressRuleList from '@/views/partials/IngressRuleList.vue'
 
 // Create new ingress rule
 const newIngressRuleModalRef = ref(null)
-const openNewIngressRuleModal = computed(() => newIngressRuleModalRef.value?.openModal ?? (() => {}))
+const openNewIngressRuleModal = computed(() => newIngressRuleModalRef.value?.openModal ?? (() => { }))
 
 // Ingress Rules List
 const ingressRuleListRef = ref(null)
-const refetchIngressRuleList = computed(() => ingressRuleListRef.value?.refetchIngressRules ?? (() => {}))
+const refetchIngressRuleList = computed(() => ingressRuleListRef.value?.refetchIngressRules ?? (() => { }))
 </script>
 
 <template>
@@ -28,11 +28,9 @@ const refetchIngressRuleList = computed(() => ingressRuleListRef.value?.refetchI
           Add New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchIngressRuleList">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': ingressRuleListRef?.isIngressRulesLoading ?? false
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': ingressRuleListRef?.isIngressRulesLoading ?? false
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>

@@ -16,7 +16,7 @@ const props = defineProps({
     type: String,
     default: 'primary',
     validator(value) {
-      return ['primary', 'success', 'warning', 'danger', 'secondary', 'info', 'ghost'].includes(value)
+      return ['primary', 'success', 'warning', 'error', 'secondary', 'info', 'ghost'].includes(value)
     }
   },
   slim: {
@@ -47,7 +47,7 @@ const isDisabled = computed(() => {
     'btn-secondary': type === 'secondary',
     'btn-success': type === 'success',
     'btn-warning': type === 'warning',
-    'btn-danger': type === 'danger',
+    'btn-error': type === 'error',
     'btn-info': type === 'info',
     'btn-ghost': type === 'ghost',
     'rounded-full': rounded,

@@ -4,7 +4,7 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   safelist: ['hidden'],
   daisyui: {
-    themes: ['winter', 'night']
+    themes: ['winter', 'dim']
   },
   plugins: [require('@tailwindcss/typography'), require("daisyui")]
 }

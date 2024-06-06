@@ -1,18 +1,15 @@
 <script setup>
-import PageBar from '@/views/components/PageBar.vue'
+import Disclosure from '@/views/components/Disclosure.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
+import ModalDialog from '@/views/components/ModalDialog.vue'
+import PageBar from '@/views/components/PageBar.vue'
+import CreateDomainModal from '@/views/partials/CreateDomainModal.vue'
+import DomainCard from '@/views/partials/DomainListRow.vue'
 import { useLazyQuery, useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import moment from 'moment'
 import { computed, ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import ModalDialog from '@/views/components/ModalDialog.vue'
-import DomainListRow from '@/views/partials/DomainListRow.vue'
-import Disclosure from '@/views/components/Disclosure.vue'
-import moment from 'moment'
-import CreateDomainModal from '@/views/partials/CreateDomainModal.vue'
 
 const toast = useToast()
 
@@ -195,7 +192,7 @@ onIssueSslError((err) => {
 
 // Create Domain
 const createDomainModal = ref(null)
-const openNewDomainModal = computed(() => createDomainModal.value?.openModal ?? (() => {}))
+const openNewDomainModal = computed(() => createDomainModal.value?.openModal ?? (() => { }))
 </script>
 
 <template>
@@ -213,20 +210,14 @@ const openNewDomainModal = computed(() => createDomainModal.value?.openModal ?? 
           <Disclosure class="mt-4">
             <template v-slot:title>SSL Full Chain Details</template>
             <template v-slot:body>
-              <textarea
-                class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm"
-                readonly
-                rows="5"
+              <textarea class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" readonly rows="5"
                 v-bind:value="viewSslDetailsResult.sslFullChain"></textarea>
             </template>
           </Disclosure>
           <Disclosure class="mt-3">
             <template v-slot:title>SSL Private Key Details</template>
             <template v-slot:body>
-              <textarea
-                class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm"
-                readonly
-                rows="5"
+              <textarea class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" readonly rows="5"
                 v-bind:value="viewSslDetailsResult.sslPrivateKey"></textarea>
             </template>
           </Disclosure>
@@ -244,59 +235,23 @@ const openNewDomainModal = computed(() => createDomainModal.value?.openModal ?? 
           Register New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchDomainList">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': isDomainListLoading
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': isDomainListLoading
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
     <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">Domain Name</TableHeader>
-        <TableHeader align="center">SSL Status</TableHeader>
-        <TableHeader align="center">SSL Details</TableHeader>
-        <TableHeader align="center">SSL Issuer</TableHeader>
-        <TableHeader align="center">Issue SSL</TableHeader>
-        <TableHeader align="center">SSL Auto-renew</TableHeader>
-        <TableHeader align="center">Verify DNS</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-slot:message>
-        <TableMessage v-if="domains.length === 0">
-          No domains found.<br />
-          Click on the "Register New" button to register a new domain.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <DomainListRow
-          v-for="domain in domains"
-          v-bind:key="domain.id"
-          :delete-domain="deleteDomainWithConfirmation"
-          :domain="domain"
-          :issue-ssl="issueSSLWithConfirmation"
-          :verify-dns="verifyDomainDNS"
-          :view-ssl="viewDomainSSLDetails" />
-      </template>
-    </Table>
+    <p v-if="domains.length === 0">
+      No domains found.<br />
+      Click on the "Register New" button to register a new domain.
+    </p>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <DomainCard v-for="domain in domains" v-bind:key="domain.id" :delete-domain="deleteDomainWithConfirmation"
+        :domain="domain" :issue-ssl="issueSSLWithConfirmation" :verify-dns="verifyDomainDNS"
+        :view-ssl="viewDomainSSLDetails" />
+    </div>
   </section>
 </template>
-
-<style scoped>
-textarea::-webkit-scrollbar {
-  width: 0.5em;
-}
-
-textarea::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-textarea::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-  border-radius: 15px;
-}
-</style>

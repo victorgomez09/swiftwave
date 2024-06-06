@@ -55,7 +55,7 @@ const isExistApplicationNameCheck = () => {
 
 <template>
   <div :key="0" class="mt-12 flex w-full max-w-md flex-col p-6">
-    <img src="@/assets/images/deploy-app-image.png" class="mx-auto w-3/4" alt="deploy-app-image" />
+    <!-- <img src="@/assets/images/deploy-app-image.png" class="mx-auto w-3/4" alt="deploy-app-image" /> -->
     <div class="mt-8">
       <label class="form-control w-full">
         <div class="label">
