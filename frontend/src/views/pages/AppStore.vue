@@ -6,7 +6,7 @@ import DotLoader from '@/views/components/DotLoader.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const storeEndpoints = shallowRef(['https://raw.githubusercontent.com/victorgomez09/swiftwave/app-store/main/store.json'])
+const storeEndpoints = shallowRef(['https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app-store/main/store.json'])
 const apps = ref([])
 const appsShown = ref([])
 const searchText = ref('')
