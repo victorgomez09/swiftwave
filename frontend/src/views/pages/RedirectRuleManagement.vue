@@ -1,18 +1,12 @@
 <script setup>
-import PageBar from '@/views/components/PageBar.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
-import { useToast } from 'vue-toastification'
+import ModalDialog from '@/views/components/ModalDialog.vue'
+import PageBar from '@/views/components/PageBar.vue'
+import CreateDomainModal from '@/views/partials/CreateDomainModal.vue'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { computed, reactive, ref } from 'vue'
-import TextButton from '@/views/components/TextButton.vue'
-import ModalDialog from '@/views/components/ModalDialog.vue'
-import Badge from '@/views/components/Badge.vue'
-import CreateDomainModal from '@/views/partials/CreateDomainModal.vue'
+import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 const isModalOpen = ref(false)
@@ -162,9 +156,7 @@ const openRedirectRuleRegistrationModal = () => {
 </script>
 
 <template>
-  <CreateDomainModal
-    ref="createDomainModalRef"
-    :callback-on-create="refetchDomains"
+  <CreateDomainModal ref="createDomainModalRef" :callback-on-create="refetchDomains"
     :callback-on-pop="openRedirectRuleRegistrationModal" />
   <section class="mx-auto w-full max-w-7xl">
     <!-- Modal for create redirect rules -->
@@ -175,49 +167,43 @@ const openRedirectRuleRegistrationModal = () => {
         <form @submit.prevent="createRedirectRule">
           <!-- Domains -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="domain">Select Domain and Protocol</label>
-            <div class="mt-2 flex space-x-2">
-              <select
-                class="focus:border-primary focus:ring-primary block w-4/12 rounded-md border-gray-300 shadow-sm sm:text-sm"
-                v-model="newRedirectRuleDetails.protocol">
-                <option value="http">HTTP</option>
-                <option value="https">HTTPS</option>
-              </select>
-              <select
-                id="domain"
-                v-model="newRedirectRuleDetails.domainId"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-                <option value="0">Select a domain</option>
-                <option v-for="domain in domains" :key="domain.id" :value="domain.id">{{ domain.name }}</option>
-              </select>
-            </div>
-            <p class="mt-2 flex items-center text-sm">
-              Need to create a domain?
-              <a @click="openNewDomainModal" class="text-primary ml-1.5 cursor-pointer font-bold"
-                >Register New Domain</a
-              >
-            </p>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Select Domain and Protocol</span>
+              </div>
+              <div class="flex gap-2">
+                <select class="select select-bordered" v-model="newRedirectRuleDetails.protocol">
+                  <option value="http">HTTP</option>
+                  <option value="https">HTTPS</option>
+                </select>
+                <select id="domain" v-model="newRedirectRuleDetails.domainId" class="select select-bordered w-full">
+                  <option value="0">Select a domain</option>
+                  <option v-for="domain in domains" :key="domain.id" :value="domain.id">{{ domain.name }}</option>
+                </select>
+              </div>
+            </label>
           </div>
+          <p class="mt-2 flex items-center text-sm">
+            Need to create a domain?
+            <a @click="openNewDomainModal" class="text-primary ml-1.5 cursor-pointer font-bold">Register New
+              Domain</a>
+          </p>
 
           <!--  Redirected URL   -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="name">Redirected URL</label>
-            <div class="mt-1">
-              <input
-                id="name"
-                v-model="newRedirectRuleDetails.redirectURL"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                name="name"
-                placeholder="Name of redirected URL"
-                type="text" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Redirected URL</span>
+              </div>
+              <input id="name" v-model="newRedirectRuleDetails.redirectURL" autocomplete="off"
+                class="input input-bordered w-full" name="name" placeholder="Name of redirected URL" type="text" />
+            </label>
           </div>
         </form>
       </template>
       <template v-slot:footer>
-        <FilledButton :click="createRedirectRule" :loading="isRedirectRuleCreating" type="primary"
-          >Register
+        <FilledButton :click="createRedirectRule" :loading="isRedirectRuleCreating" type="primary">
+          Register
         </FilledButton>
       </template>
     </ModalDialog>
@@ -232,56 +218,61 @@ const openRedirectRuleRegistrationModal = () => {
           Add New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchRedirectRules">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': isRedirectRulesLoading
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': isRedirectRulesLoading
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
-    <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">ID</TableHeader>
-        <TableHeader align="center">Status</TableHeader>
-        <TableHeader align="center">Rule</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-slot:message>
-        <TableMessage v-if="redirectRules.length === 0">
-          No Redirect Rules found.<br />
-          Click on the "Add New" button to create a new redirect rule.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <tr v-for="redirectRule in redirectRules" :key="redirectRule.id">
-          <TableRow align="left">
-            <div class="text-sm font-medium text-gray-900">{{ redirectRule.id }}</div>
-          </TableRow>
-          <TableRow align="center">
-            <Badge v-if="redirectRule.status === 'pending'" type="warning">Pending</Badge>
-            <Badge v-else-if="redirectRule.status === 'applied'" type="success">Applied</Badge>
-            <Badge v-else-if="redirectRule.status === 'failed'" type="danger">Failed</Badge>
-            <Badge v-else-if="redirectRule.status === 'deleting'" type="danger">Deleting</Badge>
-          </TableRow>
-          <TableRow align="center">
-            <div class="text-sm text-gray-900">
-              <a :href="redirectRuleFrontURL(redirectRule)" target="_blank">{{ redirectRuleFrontURL(redirectRule) }}</a
-              >&nbsp;&nbsp; <font-awesome-icon icon="fa-solid fa-arrow-right" />&nbsp;&nbsp;
-              <a :href="redirectRule.redirectURL" target="_blank">{{ redirectRule.redirectURL }}</a>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+
+      <div class="indicator" v-for="redirectRule in redirectRules" :key="redirectRule.id">
+        <span class="indicator-item badge" :class="{
+          'badge-warning': redirectRule.status === 'pending',
+          'badge-success': redirectRule.status === 'applied',
+          'badge-error': redirectRule.status === 'failed' || redirectRule.status === 'deleting'
+        }"></span>
+
+        <div class="card bg-base-300 shadow">
+          <div class="card-body p-4">
+            <div class="card-title items-center justify-between">
+              <div class="flex items-center gap-2">
+                <h2>{{ redirectRuleFrontURL(redirectRule) }}</h2>
+                <div class="badge mr-1" v-if="volume.type === 'local'">Local</div>
+                <div class="mr-1" v-if="volume.type === 'nfs'">&nbsp;&nbsp;NFS&nbsp;&nbsp;</div>
+                <div class="mr-1" v-if="volume.type === 'cifs'">&nbsp;CIFS&nbsp;</div>
+              </div>
+
+              <font-awesome-icon class="cursor-pointer" icon="fa-solid fa-eye" size="sm" @click="showDetails" />
             </div>
-          </TableRow>
-          <TableRow align="right">
-            <TextButton :click="() => deleteRedirectRulesWithConfirmation(redirectRule)" type="danger"
-              >Delete
-            </TextButton>
-          </TableRow>
-        </tr>
-      </template>
-    </Table>
+
+            <div class="flex flex-col gap-2">
+              <!-- Status -->
+              <div class="flex items-center gap-2">
+                <span>Status:</span>
+                <span v-if="redirectRule.status === 'pending'" class="font-semibold">Pending</span>
+                <span v-else-if="redirectRule.status === 'applied'" class="font-semibold">Applied</span>
+                <span v-else-if="redirectRule.status === 'failed'" class="font-semibold">Failed</span>
+                <span v-else-if="redirectRule.status === 'deleting'" class="font-semibold">Deleting</span>
+              </div>
+
+              <!-- Target -->
+              <div class="flex items-center gap-2">
+                <span>Target:</span>
+                <span class="font-semibold">{{ redirectRule.redirectURL }}</span>
+              </div>
+            </div>
+
+            <div class="card-actions justify-end">
+              <FilledButton :click="() => deleteRedirectRulesWithConfirmation(redirectRule)" type="error">
+                Delete
+              </FilledButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
-
-<style scoped></style>

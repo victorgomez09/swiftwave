@@ -1,5 +1,4 @@
 <script setup>
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { useLazyQuery, useMutation } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { computed, ref } from 'vue'
@@ -160,7 +159,7 @@ const createBackup = () => {
       <div class="flex flex-col gap-2">
         <!-- SIZE -->
         <div class="flex items-center gap-2">
-          <span class="font-semibold">Size:</span>
+          <span>Size:</span>
           <span class="flex items-center">
             <p v-if="sizeFetched">{{ persistentVolumeSize }} MB</p>
             <p v-else>Fetch size to show data</p>

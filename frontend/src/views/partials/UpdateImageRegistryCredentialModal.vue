@@ -17,7 +17,7 @@ const props = defineProps({
   callbackOnPop: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -123,54 +123,41 @@ onImageRegistryCredentialUpdateSuccess(() => {
       <form v-else @submit.prevent="">
         <!--  Name Field   -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="url"> URL (example: ghcr.io) </label>
-          <div class="mt-1">
-            <input
-              id="url"
-              v-model="imageRegitryCredentialDetails.url"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="url"
-              placeholder="URL"
-              type="text" />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">URL (example: ghcr.io)</span>
+            </div>
+            <input id="url" v-model="imageRegitryCredentialDetails.url" autocomplete="off"
+              class="input input-bordered w-full" name="url" placeholder="URL" type="text" />
+          </label>
         </div>
+
         <!-- Username Field -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="username"> Image Registry Username</label>
-          <div class="mt-1">
-            <input
-              id="username"
-              v-model="imageRegitryCredentialDetails.username"
-              @keydown="preventSpaceInput"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="username"
-              placeholder="Image Registry Username"
-              type="text" />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Image Registry Username</span>
+            </div>
+            <input id="username" v-model="imageRegitryCredentialDetails.username" @keydown="preventSpaceInput"
+              autocomplete="off" class="input input-bordered w-full" name="username"
+              placeholder="Image Registry Username" type="text" />
+          </label>
         </div>
+
         <!-- Password Field -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="password"> Image Registry Password </label>
-          <div class="mt-1">
-            <input
-              id="password"
-              v-model="imageRegitryCredentialDetails.password"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="password"
-              placeholder="Image Registry Password"
-              type="text" />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Image Registry Password</span>
+            </div>
+            <input id="password" v-model="imageRegitryCredentialDetails.password" autocomplete="off"
+              class="input input-bordered w-full" name="password" placeholder="Image Registry Password" type="text" />
+          </label>
         </div>
       </form>
     </template>
     <template v-slot:footer>
-      <FilledButton
-        class="w-full"
-        :click="updateImageRegistryCredential"
-        :loading="isImageRegistryCredentialUpdating"
+      <FilledButton class="w-full" :click="updateImageRegistryCredential" :loading="isImageRegistryCredentialUpdating"
         type="primary"
         :disabled="imageRegitryCredentialDetails.type === '' || imageRegitryCredentialDetails.name === ''">
         Update Credential

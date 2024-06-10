@@ -3,19 +3,16 @@ import PageBar from '@/views/components/PageBar.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import { useToast } from 'vue-toastification'
 import { computed, ref } from 'vue'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@vue/apollo-composable'
-import GitCredentialListRow from '@/views/partials/GitCredentialListRow.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
+import GitCredentialCard from '@/views/partials/GitCredentialCard.vue'
 import CreateGitCredentialModal from '@/views/partials/CreateGitCredentialModal.vue'
 
 const toast = useToast()
 
 // Create Git Credential
 const createGitCredentialModalRef = ref(null)
-const openCreateGitCredentialModal = computed(() => createGitCredentialModalRef.value?.openModal ?? (() => {}))
+const openCreateGitCredentialModal = computed(() => createGitCredentialModalRef.value?.openModal ?? (() => { }))
 
 // Delete Git Credential mutation
 const {
@@ -96,40 +93,18 @@ onGitCredentialListError((err) => {
           Add New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchGitCredentialList">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': isGitCredentialListLoading
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': isGitCredentialListLoading
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
-    <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">Identifier Name</TableHeader>
-        <TableHeader align="center">Type</TableHeader>
-        <TableHeader align="center">Show Details</TableHeader>
-        <TableHeader align="center">Edit Details</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-if="gitCredentials.length === 0" v-slot:message>
-        <TableMessage>
-          No Git Credentials found.<br />
-          Click on the Add New button to create a new Git Credential.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <GitCredentialListRow
-          v-for="gitCredential in gitCredentials"
-          v-bind:key="gitCredential.id"
-          :delete-git-credential="deleteGitCredentialWithConfirmation"
-          :git-credential="gitCredential"
-          :on-update-git-credential="refetchGitCredentialList" />
-      </template>
-    </Table>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <GitCredentialCard v-for="gitCredential in gitCredentials" v-bind:key="gitCredential.id"
+        :delete-git-credential="deleteGitCredentialWithConfirmation" :git-credential="gitCredential"
+        :on-update-git-credential="refetchGitCredentialList" />
+    </div>
   </section>
 </template>
-
-<style scoped></style>

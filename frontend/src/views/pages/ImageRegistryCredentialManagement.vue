@@ -1,22 +1,19 @@
 <script setup>
-import PageBar from '@/views/components/PageBar.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
-import { useToast } from 'vue-toastification'
-import { computed, ref } from 'vue'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@vue/apollo-composable'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import ImageRegistryCredentialListRow from '@/views/partials/ImageRegistryCredentialListRow.vue'
+import PageBar from '@/views/components/PageBar.vue'
 import CreateImageRegistryCredentialModal from '@/views/partials/CreateImageRegistryCredentialModal.vue'
+import ImageRegistryCredentialCard from '@/views/partials/ImageRegistryCredentialCard.vue'
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { computed, ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 
 // Create Image Registry Credential
 const createImageRegistryCredentialModalRef = ref(null)
 const openCreateImageRegistryCredentialModal = computed(
-  () => createImageRegistryCredentialModalRef.value?.openModal ?? (() => {})
+  () => createImageRegistryCredentialModalRef.value?.openModal ?? (() => { })
 )
 
 // Delete Image Registry Credential mutation
@@ -88,8 +85,7 @@ onImageRegistryCredentialListError((err) => {
 <template>
   <section class="mx-auto w-full max-w-7xl">
     <!-- Modal for create -->
-    <CreateImageRegistryCredentialModal
-      ref="createImageRegistryCredentialModalRef"
+    <CreateImageRegistryCredentialModal ref="createImageRegistryCredentialModalRef"
       :callback-on-create="refetchImageRegistryCredentialList" />
 
     <!-- Top Page bar   -->
@@ -102,40 +98,20 @@ onImageRegistryCredentialListError((err) => {
           Add New
         </FilledButton>
         <FilledButton type="ghost" :click="refetchImageRegistryCredentialList">
-          <font-awesome-icon
-            icon="fa-solid fa-arrows-rotate"
-            :class="{
-              'animate-spin ': isImageRegistryCredentialListLoading
-            }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+            'animate-spin ': isImageRegistryCredentialListLoading
+          }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
-    <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">URL</TableHeader>
-        <TableHeader align="center">Username</TableHeader>
-        <TableHeader align="center">Password</TableHeader>
-        <TableHeader align="center">Edit Details</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-if="imageRegistryCredentials.length === 0" v-slot:message>
-        <TableMessage>
-          No Image Registry Credentials found.<br />
-          Click on the Add New button to create a new Image Registry Credential.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <ImageRegistryCredentialListRow
-          v-for="imageRegistryCredential in imageRegistryCredentials"
-          v-bind:key="imageRegistryCredential.id"
-          :delete-image-registry-credential="deleteImageRegistryCredentialWithConfirmation"
-          :image-registry-credential="imageRegistryCredential"
-          :on-update-image-registry-credential="refetchImageRegistryCredentialList" />
-      </template>
-    </Table>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <ImageRegistryCredentialCard v-for="imageRegistryCredential in imageRegistryCredentials"
+        v-bind:key="imageRegistryCredential.id"
+        :delete-image-registry-credential="deleteImageRegistryCredentialWithConfirmation"
+        :image-registry-credential="imageRegistryCredential"
+        :on-update-image-registry-credential="refetchImageRegistryCredentialList" />
+    </div>
   </section>
 </template>
-
-<style scoped></style>

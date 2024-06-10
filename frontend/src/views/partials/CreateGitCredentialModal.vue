@@ -99,7 +99,7 @@ defineExpose({
               <div class="label">
                 <span class="label-text">Name (Provide a name to identify the credential)</span>
               </div>
-              <input id="name" v-model="newGitCredential.name" autocomplete="off" class="select select-bordered w-full"
+              <input id="name" v-model="newGitCredential.name" autocomplete="off" class="input input-bordered w-full"
                 name="name" placeholder="Name" type="text" />
             </label>
           </div>

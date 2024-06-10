@@ -17,7 +17,7 @@ const props = defineProps({
   callbackOnPop: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -129,89 +129,66 @@ onGitCredentialUpdateSuccess(() => {
       <form v-else @submit.prevent="">
         <!--  Name Field   -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="name">
-            Name (Provide a name to identify the credential)
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Name (Provide a name to identify the credential)</span>
+            </div>
+            <input id="name" v-model="gitCredentialDetails.name" autocomplete="off" class="input input-bordered w-full"
+              name="name" placeholder="Name" type="text" />
           </label>
-          <div class="mt-1">
-            <input
-              id="name"
-              v-model="gitCredentialDetails.name"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="name"
-              placeholder="Name"
-              type="text" />
-          </div>
         </div>
         <!-- Type Field -->
         <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700" for="username"> Authentication Type </label>
-          <div class="mt-1">
-            <select
-              id="git_credential"
-              v-model="gitCredentialDetails.type"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Authentication Type</span>
+            </div>
+            <select id="git_credential" v-model="gitCredentialDetails.type" class="select select-bordered w-full">
               <option selected value="">No Credential</option>
               <option value="http">HTTP</option>
               <option value="ssh">SSH</option>
             </select>
-          </div>
+          </label>
           <p class="mt-1 text-sm text-gray-500">
             If some applications already using this credential, changing the authentication type can cause issues.
           </p>
         </div>
         <!-- Username Field -->
         <div class="mt-4" v-if="gitCredentialDetails.type === 'http'">
-          <label class="block text-sm font-medium text-gray-700" for="username"> Git Username </label>
-          <div class="mt-1">
-            <input
-              id="username"
-              v-model="gitCredentialDetails.username"
-              @keydown="preventSpaceInput"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="username"
-              placeholder="Git Username"
-              type="text" />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Git Username</span>
+            </div>
+            <input id="username" v-model="gitCredentialDetails.username" @keydown="preventSpaceInput" autocomplete="off"
+              class="input input-bordered w-full" name="username" placeholder="Git Username" type="text" />
+          </label>
         </div>
         <!-- Password Field -->
         <div class="mt-4" v-if="gitCredentialDetails.type === 'http'">
-          <label class="block text-sm font-medium text-gray-700" for="password"> Git Password / Auth Token </label>
-          <div class="mt-1">
-            <input
-              id="password"
-              v-model="gitCredentialDetails.password"
-              autocomplete="off"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              name="password"
-              placeholder="Git Password"
-              type="text" />
-          </div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Git Password / Auth Token</span>
+            </div>
+            <input id="password" v-model="gitCredentialDetails.password" autocomplete="off"
+              class="input input-bordered w-full" name="password" placeholder="Git Password" type="text" />
+          </label>
         </div>
         <!-- Private Key Field -->
         <div class="mt-4" v-if="gitCredentialDetails.type === 'ssh'">
-          <label class="block text-sm font-medium text-gray-700" for="ssh_private_key">
-            ED25519 Private Key (In OpenSSH Format)
-          </label>
-          <p class="mt-1 text-sm text-gray-500">Leave the input blank to keep the existing private key</p>
-          <div class="mt-2">
-            <textarea
-              id="ssh_private_key"
-              v-model="gitCredentialDetails.sshPrivateKey"
-              class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              placeholder="ECDSA Private Key (In OpenSSH Format)"
-              type="text"
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">ED25519 Private Key (In OpenSSH Format)</span>
+            </div>
+            <textarea id="ssh_private_key" v-model="gitCredentialDetails.sshPrivateKey"
+              class="textarea textarea-bordered w-full" placeholder="ECDSA Private Key (In OpenSSH Format)" type="text"
               rows="5" />
-          </div>
+            <p class="mt-1 text-sm text-gray-500">Leave the input blank to keep the existing private key</p>
+          </label>
         </div>
       </form>
     </template>
     <template v-slot:footer>
-      <FilledButton
-        :click="updateGitCredential"
-        :loading="isGitCredentialUpdating"
-        type="primary"
+      <FilledButton :click="updateGitCredential" :loading="isGitCredentialUpdating" type="primary"
         :disabled="gitCredentialDetails.type === '' || gitCredentialDetails.name === ''">
         Update Credential
       </FilledButton>
