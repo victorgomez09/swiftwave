@@ -16,7 +16,7 @@ const props = defineProps({
   refetchServer: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -87,21 +87,20 @@ const enableProxy = () => {
             down.
           </p>
         </div>
-        <Divider />
-        <label class="mt-4 block text-sm font-medium text-gray-700" for="domain">Proxy Type</label>
-        <div class="mt-1 space-x-2">
-          <select
-            v-model="proxyType"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <div class="divider m-0 p-0"></div>
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Proxy Type</span>
+          </div>
+          <select v-model="proxyType" class="select select-bordered w-full">
             <option value="active">Active</option>
             <option value="backup">Backup</option>
           </select>
-        </div>
+        </label>
         <p class="mt-2 text-sm text-gray-700">
           If you are not sure or don't have any active proxy server running, select <b>Active</b> from the dropdown.
         </p>
-        <FilledButton class="mt-4 w-full" type="primary" :loading="enableProxyLoading" :click="enableProxy"
-          >Enable Proxy
+        <FilledButton class="mt-4 w-full" type="primary" :loading="enableProxyLoading" :click="enableProxy">Enable Proxy
         </FilledButton>
       </template>
     </ModalDialog>

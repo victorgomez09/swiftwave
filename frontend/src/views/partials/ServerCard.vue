@@ -1,6 +1,4 @@
 <script setup>
-import TableRow from '@/views/components/Table/TableRow.vue'
-import Badge from '@/views/components/Badge.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import { computed, ref } from 'vue'
 import { getHttpBaseUrl } from '@/vendor/utils.js'
@@ -22,7 +20,7 @@ const props = defineProps({
   refetchServers: {
     type: Function,
     required: false,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -398,139 +396,161 @@ const enableMaintenanceMode = () => {
 </script>
 
 <template>
-  <SetupServerModal
-    :refetch-server="refetchServers"
-    ref="setupModalRef"
-    :server-id="server.id"
-    :server-ip="server.ip"
+  <SetupServerModal :refetch-server="refetchServers" ref="setupModalRef" :server-id="server.id" :server-ip="server.ip"
     :key="server.id + '_setup_server_modal'" />
   <EnableServerProxyModal ref="enableProxyModalRef" :server-id="server.id" :key="server.id + '_enable_proxy_modal'" />
-  <SetupResourceMonitoring
-    ref="setupResourceMonitoringModalRef"
-    :server-id="server.id"
-    :key="server.id + '_setup_resource_monitoring_modal'"
-    :open-web-console="openWebConsole" />
+  <SetupResourceMonitoring ref="setupResourceMonitoringModalRef" :server-id="server.id"
+    :key="server.id + '_setup_resource_monitoring_modal'" :open-web-console="openWebConsole" />
   <ChangeServerIpModal :server-ip="server.ip" :server-id="server.id" ref="changeServerIpModalRef" />
-  <ChangeServerSshPortModal
-    :server-ssh-port="server.ssh_port"
-    :server-id="server.id"
+  <ChangeServerSshPortModal :server-ssh-port="server.ssh_port" :server-id="server.id"
     ref="changeServerSSHPortModalRef" />
-  <tr :key="server.id + '_server_row'">
-    <TableRow align="left">
-      <div class="flex flex-col text-sm font-medium text-gray-900">
-        {{ server.ip }}
-        <span class="text-xs text-gray-700">{{ server.hostname }}</span>
+
+  <div class="indicator" :key="server.id + '_server_row'">
+
+    <div class="card bg-base-300 shadow">
+      <div class="card-body p-4">
+        <h2 class="card-title">
+          {{ server.ip }}
+          <span class="text-xs text-base-content">{{ server.hostname }}</span>
+        </h2>
+
+        <div class="flex flex-col gap-2">
+          <!-- SSH -->
+          <div class="flex items-center gap-2">
+            <span>SSH:</span>
+            <span class="font-semibold">
+              {{ server.user }}/{{ server.ssh_port }}
+            </span>
+          </div>
+
+          <!-- Node -->
+          <div class="flex items-center gap-2">
+            <span>Node:</span>
+            <span v-if="server.swarmNodeStatus === 'ready' && !isSetupRequired" class="font-semibold">
+              {{ server.swarmNodeStatus }}
+            </span>
+            <span v-else class="font-semibold">{{ server.swarmNodeStatus }}</span>
+          </div>
+
+          <!-- Status -->
+          <div class="flex items-center gap-2">
+            <span>Status:</span>
+            <span v-if="server.status === 'online'" class="font-semibold">Online</span>
+            <span v-else-if="server.status === 'offline'" class="font-semibold">Offline</span>
+            <span v-else-if="server.status === 'preparing'" class="font-semibold">Preparing</span>
+          </div>
+
+          <!-- Maintenance -->
+          <div class="flex items-center gap-2">
+            <span>Maintenance:</span>
+            <span v-if="server.maintenanceMode && !isSetupRequired" class="font-semibold">ON</span>
+            <span v-else-if="!isSetupRequired" class="font-semibold">OFF</span>
+          </div>
+
+          <!-- Swarm -->
+          <div class="flex items-center gap-2">
+            <span>Swarm:</span>
+            <span v-if="server.swarmMode === 'manager' && !isSetupRequired" class="font-semibold">Manager</span>
+            <span v-else-if="server.swarmMode === 'worker' && !isSetupRequired" class="font-semibold">Worker</span>
+          </div>
+
+          <!-- Deployment -->
+          <div class="flex items-center gap-2">
+            <span>Deployment:</span>
+            <span v-if="server.scheduleDeployments && !isSetupRequired" class="font-semibold">Enabled</span>
+            <span v-else-if="!isSetupRequired" class="font-semibold">Disabled</span>
+          </div>
+
+          <!-- Proxy -->
+          <div class="flex items-center gap-2">
+            <span>Proxy:</span>
+            <span v-if="server.proxyEnabled && server.proxyType === 'active' && !isSetupRequired" class="font-semibold">
+              Active
+            </span>
+            <span v-else-if="server.proxyEnabled && server.proxyType === 'backup' && !isSetupRequired"
+              class="font-semibold">
+              Backup
+            </span>
+            <span v-else-if="!server.proxyEnabled && !isSetupRequired" class="font-semibold">Disabled</span>
+          </div>
+
+          <!-- Analytics -->
+          <div class="flex items-center gap-2">
+            <span>Analytics:</span>
+            <span v-if="server.proxyEnabled && server.proxyType === 'active' && !isSetupRequired" class="font-semibold">
+              Active
+            </span>
+            <span v-else-if="server.proxyEnabled && server.proxyType === 'backup' && !isSetupRequired"
+              class="font-semibold">
+              Backup
+            </span>
+            <span v-else-if="!server.proxyEnabled && !isSetupRequired" class="font-semibold">Disabled</span>
+          </div>
+        </div>
+
+        <div class="card-actions justify-end items-center">
+          <FilledButton v-if="server.status === 'needs_setup'" type="primary" :click="setupServer" slim>
+            <font-awesome-icon icon="fa-solid fa-wrench" />&nbsp;&nbsp;&nbsp;Setup Server
+          </FilledButton>
+
+          <FilledButton type="primary" slim :click="openAnalyticsPage" size="sm">
+            <font-awesome-icon icon="fa-solid fa-chart-column" />&nbsp;&nbsp;&nbsp;Analytics
+          </FilledButton>
+
+          <FilledButton type="primary" slim :click="openLogsPage" size="sm">
+            <font-awesome-icon icon="fa-solid fa-book" />&nbsp;&nbsp;&nbsp;View Logs
+          </FilledButton>
+
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-sm m-1">
+              <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />&nbsp;&nbsp;&nbsp;Show Actions
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li @click="openWebConsole">
+                <a><font-awesome-icon icon="fa-solid fa-terminal" />&nbsp;&nbsp;&nbsp;Web Console</a>
+              </li>
+              <li v-if="server.proxyEnabled && !isSetupRequired" @click="disableProxy">
+                <a><font-awesome-icon icon="fa-solid fa-diagram-project" />&nbsp;&nbsp;&nbsp;Disable Ingress Proxy</a>
+              </li>
+              <li v-if="!server.proxyEnabled && !isSetupRequired" @click="enableProxy">
+                <a><font-awesome-icon icon="fa-solid fa-diagram-project" />&nbsp;&nbsp;&nbsp;Enable Ingress Proxy</a>
+              </li>
+              <li v-if="server.swarmMode === 'manager' && !isSetupRequired" @click="demoteToWorker">
+                <a><font-awesome-icon icon="fa-solid fa-angle-down" />&nbsp;&nbsp;&nbsp;Demote to Swarm Worker</a>
+              </li>
+              <li v-if="server.swarmMode === 'worker' && !isSetupRequired" @click="promoteToManager">
+                <a><font-awesome-icon icon="fa-solid fa-angle-up" />&nbsp;&nbsp;&nbsp;Promote to Swarm Manager</a>
+              </li>
+              <li v-if="!isSetupRequired && !server.maintenanceMode" @click="enableMaintenanceMode">
+                <a><font-awesome-icon icon="fa-solid fa-person-digging" />&nbsp;&nbsp;&nbsp;Enable Maintenance Mode</a>
+              </li>
+              <li v-if="!isSetupRequired && server.maintenanceMode" @click="disableMaintenanceMode">
+                <a><font-awesome-icon icon="fa-solid fa-person-digging" />&nbsp;&nbsp;&nbsp;Disable Maintenance Mode</a>
+              </li>
+              <li v-if="server.scheduleDeployments && !isSetupRequired" @click="disableDeploymentOnServer">
+                <a><font-awesome-icon icon="fa-solid fa-stop" />&nbsp;&nbsp;&nbsp;Disable Deployment on Server</a>
+              </li>
+              <li v-if="!server.scheduleDeployments && !isSetupRequired" @click="enableDeploymentOnServer">
+                <a><font-awesome-icon icon="fa-solid fa-play" />&nbsp;&nbsp;&nbsp;Enable Deployment on Server</a>
+              </li>
+              <li v-if="!isSetupRequired" @click="setupResourceMonitoring">
+                <a><font-awesome-icon icon="fa-solid fa-hammer" />&nbsp;&nbsp;&nbsp;Setup Resource Monitoring</a>
+              </li>
+              <li @click="changeServerIp">
+                <a><font-awesome-icon icon="fa-solid fa-globe" />&nbsp;&nbsp;&nbsp;Change ServerIP</a>
+              </li>
+              <li @click="changeServerSSHPort">
+                <a><font-awesome-icon icon="fa-solid fa-globe" />&nbsp;&nbsp;&nbsp;Change Server SSH Port</a>
+              </li>
+              <li @click="deleteServer">
+                <a class="font-medium text-error">
+                  <font-awesome-icon icon="fa-solid fa-trash" />&nbsp;&nbsp;&nbsp;Delete Server
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </TableRow>
-    <TableRow align="center" class="text-sm text-gray-900"> {{ server.user }}/{{ server.ssh_port }}</TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.swarmNodeStatus === 'ready' && !isSetupRequired" type="success" class="capitalize">
-        {{ server.swarmNodeStatus }}
-      </Badge>
-      <Badge v-else type="danger" class="capitalize">{{ server.swarmNodeStatus }}</Badge>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.status === 'online'" type="success">Online</Badge>
-      <Badge v-else-if="server.status === 'offline'" type="danger">Offline</Badge>
-      <Badge v-else-if="server.status === 'preparing'" type="warning">Preparing</Badge>
-      <FilledButton v-else-if="server.status === 'needs_setup'" type="primary" :click="setupServer" slim>
-        <font-awesome-icon icon="fa-solid fa-wrench" />&nbsp;&nbsp;&nbsp;Setup Server
-      </FilledButton>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.maintenanceMode && !isSetupRequired" type="danger">ON</Badge>
-      <Badge v-else-if="!isSetupRequired" type="success">OFF</Badge>
-      <span v-else></span>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.swarmMode === 'manager' && !isSetupRequired" type="success">Manager</Badge>
-      <Badge v-else-if="server.swarmMode === 'worker' && !isSetupRequired" type="warning">Worker</Badge>
-      <span v-else></span>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.scheduleDeployments && !isSetupRequired" type="success">Enabled</Badge>
-      <Badge v-else-if="!isSetupRequired" type="danger">Disabled</Badge>
-      <span v-else></span>
-    </TableRow>
-    <TableRow align="center">
-      <Badge v-if="server.proxyEnabled && server.proxyType === 'active' && !isSetupRequired" type="success"
-        >Active
-      </Badge>
-      <Badge v-else-if="server.proxyEnabled && server.proxyType === 'backup' && !isSetupRequired" type="warning"
-        >Backup
-      </Badge>
-      <Badge v-else-if="!server.proxyEnabled && !isSetupRequired" type="danger">Disabled</Badge>
-      <span v-else></span>
-    </TableRow>
-
-    <TableRow align="center" flex>
-      <FilledButton type="primary" slim :click="openAnalyticsPage">
-        <font-awesome-icon icon="fa-solid fa-chart-column" />&nbsp;&nbsp;&nbsp;Analytics
-      </FilledButton>
-    </TableRow>
-    <TableRow align="center" flex>
-      <FilledButton type="primary" slim :click="openLogsPage">
-        <font-awesome-icon icon="fa-solid fa-book" />&nbsp;&nbsp;&nbsp;View Logs
-      </FilledButton>
-    </TableRow>
-    <TableRow align="right" flex>
-      <FilledButton type="ghost" slim ref="actionsBtnRef" :click="onClickActions">
-        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />&nbsp;&nbsp;&nbsp;Show Actions
-      </FilledButton>
-    </TableRow>
-  </tr>
-
-  <div class="z-1 actions-menu" ref="actionsMenuRef" @click="closeMenu">
-    <ul>
-      <li @click="openWebConsole"><font-awesome-icon icon="fa-solid fa-terminal" />&nbsp;&nbsp;&nbsp;Web Console</li>
-      <li v-if="server.proxyEnabled && !isSetupRequired" @click="disableProxy">
-        <font-awesome-icon icon="fa-solid fa-diagram-project" />&nbsp;&nbsp;&nbsp;Disable Ingress Proxy
-      </li>
-      <li v-if="!server.proxyEnabled && !isSetupRequired" @click="enableProxy">
-        <font-awesome-icon icon="fa-solid fa-diagram-project" />&nbsp;&nbsp;&nbsp;Enable Ingress Proxy
-      </li>
-      <li v-if="server.swarmMode === 'manager' && !isSetupRequired" @click="demoteToWorker">
-        <font-awesome-icon icon="fa-solid fa-angle-down" />&nbsp;&nbsp;&nbsp;Demote to Swarm Worker
-      </li>
-      <li v-if="server.swarmMode === 'worker' && !isSetupRequired" @click="promoteToManager">
-        <font-awesome-icon icon="fa-solid fa-angle-up" />&nbsp;&nbsp;&nbsp;Promote to Swarm Manager
-      </li>
-      <li v-if="!isSetupRequired && !server.maintenanceMode" @click="enableMaintenanceMode">
-        <font-awesome-icon icon="fa-solid fa-person-digging" />&nbsp;&nbsp;&nbsp;Enable Maintenance Mode
-      </li>
-      <li v-if="!isSetupRequired && server.maintenanceMode" @click="disableMaintenanceMode">
-        <font-awesome-icon icon="fa-solid fa-person-digging" />&nbsp;&nbsp;&nbsp;Disable Maintenance Mode
-      </li>
-      <li v-if="server.scheduleDeployments && !isSetupRequired" @click="disableDeploymentOnServer">
-        <font-awesome-icon icon="fa-solid fa-stop" />&nbsp;&nbsp;&nbsp;Disable Deployment on Server
-      </li>
-      <li v-if="!server.scheduleDeployments && !isSetupRequired" @click="enableDeploymentOnServer">
-        <font-awesome-icon icon="fa-solid fa-play" />&nbsp;&nbsp;&nbsp;Enable Deployment on Server
-      </li>
-      <li v-if="!isSetupRequired" @click="setupResourceMonitoring">
-        <font-awesome-icon icon="fa-solid fa-hammer" />&nbsp;&nbsp;&nbsp;Setup Resource Monitoring
-      </li>
-      <li @click="changeServerIp"><font-awesome-icon icon="fa-solid fa-globe" />&nbsp;&nbsp;&nbsp;Change Server IP</li>
-      <li @click="changeServerSSHPort">
-        <font-awesome-icon icon="fa-solid fa-globe" />&nbsp;&nbsp;&nbsp;Change Server SSH Port
-      </li>
-      <li @click="deleteServer">
-        <p class="font-medium text-danger-500">
-          <font-awesome-icon icon="fa-solid fa-trash" />&nbsp;&nbsp;&nbsp;Delete Server
-        </p>
-      </li>
-    </ul>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.actions-menu {
-  @apply absolute hidden rounded-md border border-gray-200 bg-white shadow-md;
-
-  ul {
-    li {
-      @apply cursor-pointer px-4 py-2 text-sm text-gray-900 hover:bg-gray-100;
-    }
-  }
-}
-</style>

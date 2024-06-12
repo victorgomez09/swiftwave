@@ -113,30 +113,25 @@ onMounted(() => {
     <template v-slot:subtitle>These logs are related to the actions performed on the server</template>
     <template v-slot:buttons>
       <FilledButton type="ghost" :click="refetchServerLogs">
-        <font-awesome-icon
-          icon="fa-solid fa-arrows-rotate"
-          :class="{
-            'animate-spin ': serverLogsLoading
-          }" />&nbsp;&nbsp;Refresh List
+        <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+          'animate-spin ': serverLogsLoading
+        }" />&nbsp;&nbsp;Refresh List
       </FilledButton>
     </template>
   </PageBar>
 
   <div class="mt-8 flex w-full gap-4">
     <!--  Server logs list  -->
-    <div
-      class="scrollbox flex max-h-[80vh] w-[400px] flex-col gap-2 overflow-y-auto pr-2"
+    <div class="scrollbox flex max-h-[80vh] w-[400px] flex-col gap-2 overflow-y-auto pr-2"
       v-if="serverLogsResult.length > 0">
-      <div
-        @click="() => selectServerLog(log)"
-        :key="log.id"
-        v-for="log in serverLogsResult"
-        class="border-secondary w-full cursor-pointer select-none rounded-lg border-2 p-3 hover:bg-secondary-200"
-        :class="{
-          'border-secondary bg-secondary-200': log.id === logId
+      <div @click="() => selectServerLog(log)" :key="log.id" v-for="log in serverLogsResult"
+        class="card bg-base-300 shadow cursor-pointer hover:shadow-md" :class="{
+          'border border-secondary': log.id === logId
         }">
-        <p class="font-medium">{{ log.title }}</p>
-        <p>{{ moment(new Date(log.updatedAt)).format('Do MMMM YYYY - h:mm:ss a') }}</p>
+        <div class="card-body p-4">
+          <p class="font-medium">{{ log.title }}</p>
+          <p>{{ moment(new Date(log.updatedAt)).format('Do MMMM YYYY - h:mm:ss a') }}</p>
+        </div>
       </div>
     </div>
     <div v-else class="max-h-[80vh] w-[400px]">
@@ -145,13 +140,11 @@ onMounted(() => {
     </div>
     <!--  Server log result  -->
     <div
-      class="border-secondary bg-secondary relative max-h-[80vh] w-full overflow-y-hidden whitespace-pre-wrap rounded-lg border-2 p-4">
+      class="border-secondary bg-base-300 relative max-h-[80vh] w-full overflow-y-hidden whitespace-pre-wrap rounded-lg border p-4">
       <FilledButton type="secondary" :click="loadServerLogsContent" class="absolute right-2 top-2">
-        <font-awesome-icon
-          icon="fa-solid fa-arrows-rotate"
-          :class="{
-            'animate-spin ': serverLogsContentLoading
-          }" />&nbsp;&nbsp;Refresh Logs
+        <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
+          'animate-spin ': serverLogsContentLoading
+        }" />&nbsp;&nbsp;Refresh Logs
       </FilledButton>
       <div v-if="logId === 0">
         <i>Select a record from left side to view content</i>
@@ -168,5 +161,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped></style>

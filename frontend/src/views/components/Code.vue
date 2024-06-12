@@ -2,6 +2,12 @@
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
 
+defineProps({
+  content: {
+    type: Array
+  }
+})
+
 const toast = useToast()
 const showCopyBorder = ref(false)
 const textDivRef = ref(null)
@@ -40,20 +46,13 @@ const copyToClipboard = () => {
 </script>
 
 <template>
-  <div
-    class="border-secondary bg-secondary relative my-2 break-words rounded-lg border-2 p-3 transition-all"
-    :class="{
-      'ring-2 ring-primary-300': showCopyBorder
-    }">
-    <div ref="textDivRef" class="select-text">
-      <slot></slot>
+  <div class="mockup-code">
+    <div ref="textDivRef">
+      <pre v-for="contentText in content ">{{ contentText }}</pre>
     </div>
-    <div
-      @click="copyToClipboard"
-      class="absolute right-0 top-0 m-3 flex h-10 w-10 cursor-copy items-center justify-center rounded-lg border-2 border-primary-300 bg-white transition-all hover:bg-gray-200">
+    <div @click="copyToClipboard"
+      class="absolute right-0 top-0 m-3 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-base-300 bg-base-content transition-all">
       <font-awesome-icon icon="fa-solid fa-clipboard" class="text-xl" />
     </div>
   </div>
 </template>
-
-<style scoped></style>

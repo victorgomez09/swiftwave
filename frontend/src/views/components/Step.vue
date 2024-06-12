@@ -28,20 +28,19 @@ defineProps({
 
 <template>
   <div class="my-3 flex items-center gap-4">
-    <div
-      class="flex h-12 w-12 items-center justify-center rounded-xl border text-xl font-bold text-white shadow-md"
+    <div class="flex h-12 w-12 items-center justify-center rounded-box border text-xl font-bold text-white shadow-sm"
       :class="{
-        'bg-primary border-primary-600': type === 'primary',
-        'border-secondary-600 bg-secondary-500': type === 'secondary',
-        'border-success-600 bg-success-500': type === 'success',
-        'border-danger-600 bg-danger-500': type === 'danger',
-        'border-warning-600 bg-warning-500': type === 'warning'
+        'bg-primary border-primary': type === 'primary',
+        'border-secondary bg-secondary': type === 'secondary',
+        'border-success bg-success': type === 'success',
+        'border-error bg-error': type === 'error',
+        'border-warning bg-warning': type === 'warning'
       }">
       {{ prefixText }}
     </div>
     <div class="flex flex-col">
-      <div class="text-base font-medium text-gray-900">{{ title }}</div>
-      <div class="text-sm text-gray-500">{{ subTitle }}</div>
+      <div class="text-base font-medium text-base-content">{{ title }}</div>
+      <div class="text-sm font-thin text-base-content">{{ subTitle }}</div>
     </div>
   </div>
   <div class="ml-16 mt-4" v-if="showBody">

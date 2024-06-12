@@ -103,26 +103,19 @@ defineExpose({
         <form @submit.prevent="">
           <!--  IP Field   -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="ip"> IP Address </label>
-            <div class="mt-1">
-              <input
-                id="ip"
-                v-model="newServerIp"
-                @keydown="preventSpaceInput"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                type="text" />
-            </div>
+            <label class="form-control w-full ">
+              <div class="label">
+                <span class="label-text">IP Address</span>
+              </div>
+              <input id="ip" v-model="newServerIp" @keydown="preventSpaceInput" autocomplete="off"
+                class="input input-bordered w-full" type="text" />
+            </label>
           </div>
         </form>
       </template>
       <template v-slot:footer>
-        <FilledButton
-          :click="changeServerIp"
-          :loading="isRequestRunning"
-          type="primary"
-          :disabled="newServerIp === serverIp || newServerIp === ''"
-          >Change Server IP
+        <FilledButton :click="changeServerIp" :loading="isRequestRunning" type="primary"
+          :disabled="newServerIp === serverIp || newServerIp === ''">Change Server IP
         </FilledButton>
       </template>
     </ModalDialog>

@@ -103,26 +103,19 @@ defineExpose({
         <form @submit.prevent="">
           <!--  IP Field   -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="ssh_port"> SSH Port </label>
-            <div class="mt-1">
-              <input
-                id="ssh_port"
-                v-model="newServerSSHPort"
-                @keydown="preventSpaceInput"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                type="text" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">SSH Port</span>
+              </div>
+              <input id="ssh_port" v-model="newServerSSHPort" @keydown="preventSpaceInput" autocomplete="off"
+                class="input input-bordered w-full" type="text" />
+            </label>
           </div>
         </form>
       </template>
       <template v-slot:footer>
-        <FilledButton
-          :click="changeServerSSHPort"
-          :loading="isRequestRunning"
-          type="primary"
-          :disabled="newServerSSHPort === serverSshPort || newServerSSHPort === ''"
-          >Change Server SSH Port
+        <FilledButton :click="changeServerSSHPort" :loading="isRequestRunning" type="primary"
+          :disabled="newServerSSHPort === serverSshPort || newServerSSHPort === ''">Change Server SSH Port
         </FilledButton>
       </template>
     </ModalDialog>
