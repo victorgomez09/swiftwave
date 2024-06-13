@@ -3,11 +3,12 @@ package cmd
 import (
 	_ "embed"
 	"fmt"
+	"os"
+
 	swiftwave_config "github.com/swiftwave-org/swiftwave/swiftwave_service/config"
 	"github.com/swiftwave-org/swiftwave/swiftwave_service/config/local_config"
 	"github.com/swiftwave-org/swiftwave/swiftwave_service/config/system_config/bootstrap"
 	"github.com/swiftwave-org/swiftwave/swiftwave_service/db"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -31,9 +32,9 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "swiftwave",
-	Short: "SwiftWave is a self-hosted lightweight PaaS solution",
-	Long:  `SwiftWave is a self-hosted lightweight PaaS solution to deploy and manage your applications on any VPS without any hassle of managing servers.`,
+	Use:   "vdploy",
+	Short: "Vira Deploy is a self-hosted lightweight PaaS solution",
+	Long:  `Vira Deploy is a self-hosted lightweight PaaS solution to deploy and manage your applications on any VPS without any hassle of managing servers.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// print help
 		err := cmd.Help()

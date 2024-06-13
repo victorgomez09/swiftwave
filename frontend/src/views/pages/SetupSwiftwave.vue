@@ -175,7 +175,7 @@ const updateConfig = async () => {
       <span v-show="isUpdateRequired">🚀 Configuration Saved</span>
     </template>
     <template v-slot:body>
-      <p class="mb-2">All the configurations are saved successfully. SwiftWave needs some time to be prepared.</p>
+      <p class="mb-2">All the configurations are saved successfully. Vira Deploy needs some time to be prepared.</p>
       <p>
         Redirecting to Maintenance Page in <b>{{ timeCount }}</b> seconds
       </p>
@@ -318,11 +318,9 @@ const updateConfig = async () => {
       <div class="content">
         <div class="input-label">
           <span>Image</span>
-          <span
-            >Available Images -
-            <a href="https://github.com/swiftwave-org/haproxy/pkgs/container/haproxy" target="_blank"
-              >github.com/swiftwave-org/haproxy/pkgs/container/haproxy</a
-            >
+          <span>Available Images -
+            <a href="https://github.com/swiftwave-org/haproxy/pkgs/container/haproxy"
+              target="_blank">github.com/swiftwave-org/haproxy/pkgs/container/haproxy</a>
           </span>
         </div>
         <input type="text" v-model="formState.haproxy_config.image" />
@@ -337,11 +335,9 @@ const updateConfig = async () => {
       <div class="content">
         <div class="input-label">
           <span>Image</span>
-          <span
-            >Available Images -
-            <a href="https://github.com/swiftwave-org/udpproxy/pkgs/container/udpproxy" target="_blank"
-              >github.com/swiftwave-org/udpproxy/pkgs/container/udpproxy</a
-            >
+          <span>Available Images -
+            <a href="https://github.com/swiftwave-org/udpproxy/pkgs/container/udpproxy"
+              target="_blank">github.com/swiftwave-org/udpproxy/pkgs/container/udpproxy</a>
           </span>
         </div>
         <input type="text" v-model="formState.udpproxy_config.image" />
@@ -406,8 +402,7 @@ const updateConfig = async () => {
         </div>
         <div class="flex items-center gap-2 font-medium">
           <span>Yes</span>
-          <Switch
-            :on-change="toggleS3ForcePathStyle"
+          <Switch :on-change="toggleS3ForcePathStyle"
             :enabled="!formState.pv_backup_config.s3_config.force_path_style" />
           <span>No</span>
         </div>
@@ -488,37 +483,29 @@ const updateConfig = async () => {
           <span>It's always reliable to configure a remote task queue to store all the messages</span>
         </div>
         <div class="multi-select">
-          <div
-            @click="switchTaskQueueType('local')"
-            :class="{
-              active: isLocalTaskQueue
-            }">
+          <div @click="switchTaskQueueType('local')" :class="{
+            active: isLocalTaskQueue
+          }">
             Local
           </div>
-          <div
-            @click="switchTaskQueueType('redis')"
-            :class="{
-              active: isRedisTaskQueue
-            }">
+          <div @click="switchTaskQueueType('redis')" :class="{
+            active: isRedisTaskQueue
+          }">
             Redis
           </div>
-          <div
-            @click="switchTaskQueueType('amqp')"
-            :class="{
-              active: isAMQPTaskQueue
-            }">
+          <div @click="switchTaskQueueType('amqp')" :class="{
+            active: isAMQPTaskQueue
+          }">
             AMQP
           </div>
         </div>
       </div>
       <div class="rounded-md border border-success-600 bg-success-100 p-2 text-success-800">
-        <span v-if="isLocalTaskQueue"
-          >Pre-configured PostgresSQL database will be used to store the tasks for reliability</span
-        >
+        <span v-if="isLocalTaskQueue">Pre-configured PostgresSQL database will be used to store the tasks for
+          reliability</span>
         <span v-else-if="isRedisTaskQueue">Configure Redis as task queue</span>
-        <span v-else-if="isAMQPTaskQueue"
-          >Configure AMQP compatible queue (RabbitMQ, LavinMQ, ActiveMQ etc.) as task queue</span
-        >
+        <span v-else-if="isAMQPTaskQueue">Configure AMQP compatible queue (RabbitMQ, LavinMQ, ActiveMQ etc.) as task
+          queue</span>
       </div>
 
       <!--  Local Task Queue config    -->
@@ -609,10 +596,7 @@ const updateConfig = async () => {
       </div>
     </div>
     <!--  Confirm btn  -->
-    <FilledButton
-      class="mt-8"
-      :click="submitConfig"
-      :loading="systemConfigStore.isSubmitting"
+    <FilledButton class="mt-8" :click="submitConfig" :loading="systemConfigStore.isSubmitting"
       v-show="!isUpdateRequired">
       <font-awesome-icon icon="fa-solid fa-rocket" class="mr-3" />
       Save Configuration & Start Swiftwave
@@ -676,7 +660,7 @@ const updateConfig = async () => {
     }
 
     .active {
-      @apply bg-primary  text-white;
+      @apply bg-primary text-white;
     }
   }
 }

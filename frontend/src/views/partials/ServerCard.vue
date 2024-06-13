@@ -489,7 +489,7 @@ const enableMaintenanceMode = () => {
         </div>
 
         <div class="card-actions justify-end items-center">
-          <FilledButton v-if="server.status === 'needs_setup'" type="primary" :click="setupServer" slim>
+          <FilledButton v-if="server.status === 'needs_setup'" type="primary" size="sm" :click="setupServer" slim>
             <font-awesome-icon icon="fa-solid fa-wrench" />&nbsp;&nbsp;&nbsp;Setup Server
           </FilledButton>
 

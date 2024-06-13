@@ -4,7 +4,7 @@
       <h2 class="text-lg font-semibold">
         <slot name="title"></slot>
       </h2>
-      <p class="mt-1 text-sm text-gray-700">
+      <p class="mt-1 text-sm text-base-content">
         <slot name="subtitle"></slot>
       </p>
     </div>

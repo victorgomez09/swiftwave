@@ -81,33 +81,5 @@ const openCreateServerModal = () => {
       <ServerCard v-for="server in servers" :key="server.id" :server="server" :refetch-servers="refetchServers" />
     </div>
 
-    <!-- Table -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">Server</TableHeader>
-        <TableHeader align="center">SSH</TableHeader>
-        <TableHeader align="center">Node</TableHeader>
-        <TableHeader align="center">Status</TableHeader>
-        <TableHeader align="center">Maintenance</TableHeader>
-        <TableHeader align="center">Swarm</TableHeader>
-        <TableHeader align="center">Deployment</TableHeader>
-        <TableHeader align="center">Proxy</TableHeader>
-        <TableHeader align="center">Analytics</TableHeader>
-        <TableHeader align="center">Logs</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-slot:message>
-        <TableMessage v-if="servers.length === 0">
-          No servers found.<br />
-          Click on the "Add Server" button to setup a new server.
-        </TableMessage>
-        <TableMessage v-if="isServersLoading"> Loading server list...</TableMessage>
-      </template>
-      <template v-slot:body>
-        <ServerRow v-for="server in servers" :key="server.id" :server="server" :refetch-servers="refetchServers" />
-      </template>
-    </Table>
   </section>
 </template>
-
-<style scoped></style>

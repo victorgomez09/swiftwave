@@ -1,9 +1,10 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/swiftwave-org/swiftwave/swiftwave_service/config/local_config"
-	"os"
 )
 
 func init() {
@@ -12,7 +13,7 @@ func init() {
 
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "Open SwiftWave configuration file in editor",
+	Short: "Open Vira Deploy configuration file in editor",
 	Run: func(cmd *cobra.Command, args []string) {
 		p := local_config.LocalConfigPath
 		if checkIfFileExists(p) {

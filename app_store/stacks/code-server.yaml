@@ -1,0 +1,23 @@
+services:
+  "{{STACK_NAME}}":
+    image: codercom/code-server
+    volumes:
+      - "{{CODESERVER_DATA}}:/data"
+    expose:
+      - "8080/http/VScode Endpoint"
+docs:
+  logo_url: "https://raw.githubusercontent.com/swiftwave-org/app-store/main/assets/logos/gitea.png"
+  name: "VSCode Server"
+  description: "Run VS Code on any machine anywhere and access it in the browser"
+  readme_description: >
+    - Code on any device with a consistent development environment
+    - Use cloud servers to speed up tests, compilations, downloads, and more
+    - Preserve battery life when you're on the go; all intensive tasks run on your server
+  iframe_video_embed: ""
+  variables:
+    CODESERVER_DATA:
+      title: "Vscode Server Password"
+      description: "Password to access VScode Server"
+      default: ""
+      type: volume
+      options:

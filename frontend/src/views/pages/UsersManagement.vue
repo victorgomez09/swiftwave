@@ -8,7 +8,7 @@ import PageBar from '@/views/components/PageBar.vue'
 import { useToast } from 'vue-toastification'
 import Table from '@/views/components/Table/Table.vue'
 import TableHeader from '@/views/components/Table/TableHeader.vue'
-import UserListRow from '@/views/partials/UserListRow.vue'
+import UserCard from '@/views/partials/UserCard.vue'
 import TableMessage from '@/views/components/Table/TableMessage.vue'
 import { preventSpaceInput } from '@/vendor/utils.js'
 
@@ -122,32 +122,23 @@ onUserListFetchFailed((err) => {
         <form @submit.prevent="createUser">
           <!-- Username Field -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="username"> Username </label>
-            <div class="mt-1">
-              <input
-                id="username"
-                v-model="newUser.username"
-                @keydown="preventSpaceInput"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                name="username"
-                placeholder="Username"
-                type="text" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Username</span>
+              </div>
+              <input id="username" v-model="newUser.username" @keydown="preventSpaceInput" autocomplete="off"
+                class="input input-bordered w-full" name="username" placeholder="Username" type="text" />
+            </label>
           </div>
           <!-- Password Field -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="password"> Password </label>
-            <div class="mt-1">
-              <input
-                id="password"
-                v-model="newUser.password"
-                autocomplete="new-password"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                name="password"
-                placeholder="Password"
-                type="password" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Password</span>
+              </div>
+              <input id="password" v-model="newUser.password" autocomplete="new-password"
+                class="input input-bordered w-full" name="password" placeholder="Password" type="password" />
+            </label>
           </div>
         </form>
       </template>
@@ -160,37 +151,17 @@ onUserListFetchFailed((err) => {
     <PageBar>
       <template v-slot:title>Users</template>
       <template v-slot:subtitle>
-        Registered users can access the SwiftWave dashboard, allowing them to perform all actions and access all
+        Registered users can access the Vira Deploy dashboard, allowing them to perform all actions and access all
         features
       </template>
       <template v-slot:buttons>
-        <FilledButton :click="openModal" type="primary"> Create User </FilledButton>
+        <FilledButton :click="openModal" type="primary">Create User</FilledButton>
       </template>
     </PageBar>
 
-    <!-- Tables -->
-    <Table class="mt-8">
-      <template v-slot:header>
-        <TableHeader align="left">Username</TableHeader>
-        <TableHeader align="left">ID</TableHeader>
-        <TableHeader align="center">Status</TableHeader>
-        <TableHeader align="left">Role</TableHeader>
-        <TableHeader align="right">Actions</TableHeader>
-      </template>
-      <template v-slot:message>
-        <TableMessage v-if="!users"> Loading users...</TableMessage>
-        <TableMessage v-else-if="users.length === 0">
-          No users found.<br />
-          Click on the "Create User" button to create a new user.
-        </TableMessage>
-      </template>
-      <template v-slot:body>
-        <UserListRow
-          v-for="user in users"
-          v-bind:key="user.id"
-          :delete-user="deleteUserWithConfirmation"
-          :user="user" />
-      </template>
-    </Table>
+    <div
+      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      <UserCard v-for="user in users" v-bind:key="user.id" :delete-user="deleteUserWithConfirmation" :user="user" />
+    </div>
   </section>
 </template>

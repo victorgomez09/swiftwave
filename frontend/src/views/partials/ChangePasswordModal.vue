@@ -73,39 +73,30 @@ onPasswordChangeFail((error) => {
         <form @submit.prevent="changePassword">
           <!-- Username Field -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="oldPassword"> Old Password </label>
-            <div class="mt-1">
-              <input
-                id="oldPassword"
-                v-model="passwordDetails.oldPassword"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                placeholder="Old Password"
-                type="password" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">Old Password</span>
+              </div>
+              <input id="oldPassword" v-model="passwordDetails.oldPassword" autocomplete="off"
+                class="input input-bordered w-full" placeholder="Old Password" type="password" />
+            </label>
           </div>
           <!-- Password Field -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700" for="newPassword"> New Password </label>
-            <div class="mt-1">
-              <input
-                id="newPassword"
-                v-model="passwordDetails.newPassword"
-                autocomplete="off"
-                class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-                placeholder="New Password"
-                type="password" />
-            </div>
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">New Password</span>
+              </div>
+              <input id="newPassword" v-model="passwordDetails.newPassword" autocomplete="off"
+                class="input input-bordered w-full" placeholder="New Password" type="password" />
+            </label>
           </div>
         </form>
       </template>
       <template v-slot:footer>
-        <FilledButton :click="changePassword" :loading="isChangingPassword" type="primary"
-          >Change Password
+        <FilledButton :click="changePassword" :loading="isChangingPassword" type="primary">Change Password
         </FilledButton>
       </template>
     </ModalDialog>
   </Teleport>
 </template>
-
-<style scoped></style>

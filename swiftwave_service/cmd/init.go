@@ -3,15 +3,16 @@ package cmd
 import (
 	_ "embed"
 	"fmt"
-	"github.com/spf13/cobra"
-	config2 "github.com/swiftwave-org/swiftwave/swiftwave_service/config"
-	"github.com/swiftwave-org/swiftwave/swiftwave_service/config/local_config"
 	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/spf13/cobra"
+	config2 "github.com/swiftwave-org/swiftwave/swiftwave_service/config"
+	"github.com/swiftwave-org/swiftwave/swiftwave_service/config/local_config"
 )
 
 func init() {
@@ -24,7 +25,7 @@ func init() {
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize SwiftWave configuration on server",
+	Short: "Initialize Vira Deploy configuration on server",
 	Run: func(cmd *cobra.Command, args []string) {
 		isAutoDomainResolve := strings.Compare(cmd.Flag("auto-domain").Value.String(), "true") == 0
 		isLocalPostgres := strings.Compare(cmd.Flag("remote-postgres").Value.String(), "false") == 0

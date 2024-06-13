@@ -1,13 +1,11 @@
 {
   "scripts": {
-    "build:docs": "node ./build_docs.js",
     "prepare:dashboard_build": "git submodule update --init && cd dashboard && npm i && cd .. && (rm -rf swiftwave_service/dashboard/www || true) && mkdir -p swiftwave_service/dashboard/www",
     "build:dashboard": "npm run prepare:dashboard_build && cd dashboard && npm run build:prod && cd .. && cp -r dashboard/dist/* swiftwave_service/dashboard/www/"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
-    "@magidoc/cli": "^4.1.2",
     "axios": "^1.6.2",
     "gh-pages": "^6.1.0"
   }
