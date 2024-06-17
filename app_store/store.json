@@ -1,6 +1,6 @@
 [
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/wg-easy.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/filebrowser.png",
     "title": "Wireguard Easy",
     "description": "The easiest way to run WireGuard VPN + Web-based Admin UI",
     "category": "VPN",
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/registry.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/registry.png",
     "title": "Image Registry",
     "description": "Distribution implementation for storing and distributing of container images and artifacts",
     "category": "Image Registry",
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/gitea.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/gitea.png",
     "title": "Gitea",
     "description": "Git with a cup of tea! Painless self-hosted all-in-one software development service, includi,ng Git hosting, code review, team collaboration, package registry and CI/CD",
     "category": "Git",
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/filebrowser.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/filebrowser.png",
     "title": "Filebrowser",
     "description": "File Browser is a create-your-own-cloud-kind of software where you can install it on a server, direct it to a path and then access your files through a nice web interface",
     "category": "Storage",
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/ghost.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/ghost.png",
     "title": "Ghost",
     "description": "Independent technology for modern publishing, memberships, subscriptions and newsletters",
     "category": "CMS",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/mongodb.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/mongodb.png",
     "title": "MongoDB",
     "description": "MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program.",
     "category": "Database",
@@ -72,7 +72,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/postgresql.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/postgresql.png",
     "title": "PostgreSQL",
     "description": "PostgreSQL (Postgres) is an open source object-relational database known for reliability and data integrity",
     "category": "Database",
@@ -84,7 +84,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/mariadb.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/mariadb.png",
     "title": "MariaDB",
     "description": "MariaDB is an open source, community-developed SQL database server",
     "category": "Database",
@@ -100,7 +100,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/mysql.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/mysql.png",
     "title": "MySQL",
     "description": "MySQL is a fast, reliable, scalable, and easy to use open source relational database system",
     "category": "Database",
@@ -116,7 +116,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/redis.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/redis.png",
     "title": "Redis",
     "description": "Redis is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.",
     "category": "Database",
@@ -128,7 +128,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/metube.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/metube.png",
     "title": "Metube",
     "description": "Web GUI for youtube-dl (using the yt-dlp fork) with playlist support. Allows you to download videos from YouTube and dozens of other sites",
     "category": "Entertainment",
@@ -140,7 +140,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/nodered.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/nodered.png",
     "title": "NodeRED",
     "description": "Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways",
     "category": "Visual Programming",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/nextcloud.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/nextcloud.png",
     "title": "NextCloud",
     "description": "A safe home for all your data. Access & share your files, calendars, contacts, mail & more from any device, on your terms",
     "category": "Storage",
@@ -172,7 +172,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/vaultwarden.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/vaultwarden.png",
     "title": "Vaulwarden",
     "description": "Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
     "category": "Password Manager",
@@ -184,7 +184,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/frappe.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/frappe.png",
     "title": "Frappe Bench",
     "description": "Low code web framework for real world applications, in Python and Javascript",
     "category": "Web Framework",
@@ -200,7 +200,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/wordpress.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/wordpress.png",
     "title": "Wordpress",
     "description": "WordPress is the world's most popular blogging and content management platform. Powerful yet simple ...",
     "category": "CMS",
@@ -216,7 +216,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/uptime-kuma.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/uptime-kuma.png",
     "title": "Uptime Kuma",
     "description": "A fancy self-hosted monitoring tool",
     "category": "Monitoring",
@@ -228,7 +228,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/psql-backup.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/psql-backup.png",
     "title": "PostgreSQL Backup S3",
     "description": "A handy Docker container to periodically backup PostgreSQL to S3",
     "category": "Database",
@@ -240,7 +240,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/mysql-mariadb-backup.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/mysql-mariadb-backup.png",
     "title": "MySQL / MariaDB Backup S3",
     "description": "Efficient and flexible backups for your MySQL / MariaDB databases, directly from your container.",
     "category": "Database",
@@ -252,7 +252,7 @@
     ]
   },
   {
-    "logo": "https://raw.githubusercontent.com/victorgomez09/swiftwave/develop/app_store/main/assets/logos/mongodb-backup.png",
+    "logo": "https://github.com/victorgomez09/swiftwave/blob/develop/app_store/assets/logos/mongodb-backup.png",
     "title": "MongoDB Backup S3",
     "description": "Automate MongoDB backups to S3 with periodic execution",
     "category": "Database",
