@@ -7,9 +7,6 @@ import FilledButton from '@/views/components/FilledButton.vue'
 import gql from 'graphql-tag'
 import { useLazyQuery, useMutation, useQuery } from '@vue/apollo-composable'
 import Code from '@/views/components/Code.vue'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import Badge from '@/views/components/Badge.vue'
 import { useRouter } from 'vue-router'
 
@@ -26,7 +23,7 @@ const props = defineProps({
   refetchServer: {
     type: Function,
     required: false,
-    default: () => { }
+    default: () => {}
   }
 })
 
@@ -296,7 +293,10 @@ onNetworkInterfacesOfServerResult((result) => {
       <template v-slot:body>
         <div class="mt-6">
           <!--    Verify SSH Connection       -->
-          <Step title="Verify SSH Connection" sub-title="Need SSH connectivity to prepare server" prefixText="1"
+          <Step
+            title="Verify SSH Connection"
+            sub-title="Need SSH connectivity to prepare server"
+            prefixText="1"
             :type="info.sshVerified === 1 ? 'success' : info.sshVerified === 0 ? 'danger' : 'secondary'"
             :show-body="info.sshVerified !== 1">
             <p class="my-2 text-sm text-base-content" v-if="isFetchingPublicSSHKey">Fetching Instructions...</p>
@@ -305,21 +305,32 @@ onNetworkInterfacesOfServerResult((result) => {
               <Code :content="[`${publicSSHKey}`]" />
               <p>Or, run this commands:</p>
               <Code
-                :content="[`sudo mkdir -p /root/.ssh && echo ${publicSSHKey} | sudo tee -a /root/.ssh/authorized_keys`]" />
+                :content="[
+                  `sudo mkdir -p /root/.ssh && echo ${publicSSHKey} | sudo tee -a /root/.ssh/authorized_keys`
+                ]" />
 
               <p class="font-medium italic">After adding the key, verify the SSH connection to proceed further</p>
             </div>
-            <FilledButton class="mt-2" :click="testSshAccessToServer" :loading="isTestingSshAccess">Click to Verify SSH
-              Connection
+            <FilledButton class="mt-2" :click="testSshAccessToServer" :loading="isTestingSshAccess"
+              >Click to Verify SSH Connection
             </FilledButton>
           </Step>
 
           <!--    Install Dependencies       -->
-          <Step v-if="info.step >= 2" title="Install Required Packages"
-            sub-title="To run swiftwave perfectly, it needs some additional packages" prefix-text="2" :type="info.dependenciesInstalled === 1 ? 'success' : info.dependenciesInstalled === 0 ? 'danger' : 'secondary'
-              ">
-            <FilledButton v-if="info.dependenciesInstalled === -1" class="mt-2" :click="verifyDependencies"
-              :loading="isVerifyingDependencies">Click to Verify Required Dependencies
+          <Step
+            v-if="info.step >= 2"
+            title="Install Required Packages"
+            sub-title="To run swiftwave perfectly, it needs some additional packages"
+            prefix-text="2"
+            :type="
+              info.dependenciesInstalled === 1 ? 'success' : info.dependenciesInstalled === 0 ? 'danger' : 'secondary'
+            ">
+            <FilledButton
+              v-if="info.dependenciesInstalled === -1"
+              class="mt-2"
+              :click="verifyDependencies"
+              :loading="isVerifyingDependencies"
+              >Click to Verify Required Dependencies
             </FilledButton>
             <div v-else-if="info.dependenciesInstalled === 0">
               <!--    Show Report        -->
@@ -345,13 +356,13 @@ onNetworkInterfacesOfServerResult((result) => {
                 </FilledButton>
 
                 <FilledButton class="w-full" :click="verifyDependencies" :loading="isVerifyingDependencies">
-                  <font-awesome-icon icon="fa-solid fa-arrow-rotate-right"
-                    v-show="!isVerifyingDependencies" />&nbsp;&nbsp; Verify
-                  Required Dependencies
+                  <font-awesome-icon
+                    icon="fa-solid fa-arrow-rotate-right"
+                    v-show="!isVerifyingDependencies" />&nbsp;&nbsp; Verify Required Dependencies
                 </FilledButton>
               </div>
 
-              <div class="border-secondary mt-2 rounded-md border p-2" v-if="info.isAutomatedDependenciesTriggered">
+              <div class="mt-2 rounded-md border border-secondary p-2" v-if="info.isAutomatedDependenciesTriggered">
                 <p class="italic">You can check logs of automated installation here</p>
                 <FilledButton class="mt-2" type="primary" :click="viewLogs">
                   <font-awesome-icon icon="fa-solid fa-file-lines" />&nbsp;&nbsp; View Logs of Server
@@ -361,50 +372,61 @@ onNetworkInterfacesOfServerResult((result) => {
           </Step>
 
           <!--    Setup Server      -->
-          <Step v-if="info.step >= 3" title="Start setting up server"
-            sub-title="Automated server setup will prepare the server for swiftwave" prefix-text="3" type="warning">
+          <Step
+            v-if="info.step >= 3"
+            title="Start setting up server"
+            sub-title="Automated server setup will prepare the server for swiftwave"
+            prefix-text="3"
+            type="warning">
             <div>
               <label class="block text-sm font-medium text-gray-700" for="domain">Swarm Node Mode</label>
               <div class="mt-1 flex space-x-2">
                 <select
-                  class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                   v-model="info.swarmMode">
                   <option value="manager">Manager</option>
                   <option value="worker">Worker</option>
                 </select>
               </div>
-              <p class="mt-0.5 text-sm italic text-secondary-600">
+              <p class="text-secondary-600 mt-0.5 text-sm italic">
                 If you have no server registered already, must select <b>Manager</b>
               </p>
             </div>
             <div class="mt-3">
-              <label class="block text-sm font-medium text-gray-700" for="domain">Swarm Advertise IP<span
-                  class="ml-2 italic" v-if="isNetworkInterfacesOfServerLoading"><font-awesome-icon
-                    icon="fa-solid fa-spinner" class="animate-spin" />&nbsp;&nbsp;Fetching...</span></label>
+              <label class="block text-sm font-medium text-gray-700" for="domain"
+                >Swarm Advertise IP<span class="ml-2 italic" v-if="isNetworkInterfacesOfServerLoading"
+                  ><font-awesome-icon icon="fa-solid fa-spinner" class="animate-spin" />&nbsp;&nbsp;Fetching...</span
+                ></label
+              >
               <div class="mt-1 flex flex-col">
-                <select v-if="networkInterfacesOfServer.length > 1"
-                  class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                <select
+                  v-if="networkInterfacesOfServer.length > 1"
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                   v-model="info.advertiseIP">
                   <option v-for="ip in networkInterfacesOfServer" :key="ip.ip" :value="ip.ip">
                     {{ ip.ip }} [{{ ip.name }}]
                   </option>
                 </select>
                 <p class="text-sm font-medium">{{ info.advertiseIP }}</p>
-                <p v-if="networkInterfacesOfServer.length > 0" class="mt-0.5 text-sm italic text-secondary-600">
-                  <span class="font-medium text-danger-500">Note:</span> Make sure that this IP address on your system
+                <p v-if="networkInterfacesOfServer.length > 0" class="text-secondary-600 mt-0.5 text-sm italic">
+                  <span class="text-danger-500 font-medium">Note:</span> Make sure that this IP address on your system
                   doesn't get changed on future.
                 </p>
               </div>
             </div>
             <div class="mt-3">
-              <label class="block text-sm font-medium text-gray-700" for="dockerUnixPath">Docker UNIX Socket
-                Path</label>
+              <label class="block text-sm font-medium text-gray-700" for="dockerUnixPath"
+                >Docker UNIX Socket Path</label
+              >
               <div class="mt-1">
-                <input id="dockerUnixPath" v-model="info.dockerUnixPath"
+                <input
+                  id="dockerUnixPath"
+                  v-model="info.dockerUnixPath"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  required type="text" />
+                  required
+                  type="text" />
               </div>
-              <p class="mt-0.5 text-sm italic text-secondary-600">Don't change it until you have special requirement</p>
+              <p class="text-secondary-600 mt-0.5 text-sm italic">Don't change it until you have special requirement</p>
             </div>
             <FilledButton class="mt-2 w-full" type="primary" :click="setupServer" :loading="isSettingUpServer">
               <font-awesome-icon icon="fa-solid fa-play" />&nbsp;&nbsp; Let's Start Setup
@@ -415,5 +437,3 @@ onNetworkInterfacesOfServerResult((result) => {
     </ModalDialog>
   </teleport>
 </template>
-
-<style scoped></style>

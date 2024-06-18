@@ -2,8 +2,6 @@
 import ApplicationListRow from '@/views/partials/ApplicationListRow.vue'
 import { computed, onMounted, ref } from 'vue'
 import { getRandomBackgroundAndBorderColourClass } from '@/vendor/utils.js'
-import TableRow from '@/views/components/Table/TableRow.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
 import UptimeChart from '@/views/components/UptimeChart.vue'
 
 const props = defineProps({
@@ -90,21 +88,31 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="isGroupTagVisible" :id="`group_${group}_tag`" style="writing-mode: vertical-rl"
+  <div
+    v-if="isGroupTagVisible"
+    :id="`group_${group}_tag`"
+    style="writing-mode: vertical-rl"
     class="absolute hidden rotate-180 cursor-pointer select-none overflow-hidden truncate text-nowrap rounded-r-md !border-2 !border-l-0 px-0.5 py-2 text-center text-sm transition-all hover:text-wrap">
     {{ decodeURI(group) }}
   </div>
-  <div v-if="group !== ''" @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
+  <div
+    v-if="group !== ''"
+    @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
     class="cursor-pointer">
-    <TableRow align="left">
+    WIP
+    <!-- <TableRow align="left">
       <div class="text-sm font-medium text-gray-900">
         {{ decodeURI(group) }}
       </div>
     </TableRow>
     <TableRow align="center" class="text-sm text-gray-700"> {{ groupReplicasPercentage }}% live</TableRow>
     <TableRow align="center" flex>
-      <UptimeChart :label="`${groupReplicasPercentage}%`" :percentage="groupReplicasPercentage" :hide-label="true"
-        :small="true" :hide-hover="true" />
+      <UptimeChart
+        :label="`${groupReplicasPercentage}%`"
+        :percentage="groupReplicasPercentage"
+        :hide-label="true"
+        :small="true"
+        :hide-hover="true" />
     </TableRow>
     <TableRow align="center" class="text-sm text-gray-700">
       <font-awesome-icon icon="fa-solid fa-layer-group" class="mr-1" />
@@ -114,10 +122,25 @@ onMounted(() => {
     <TableRow align="right" flex>
       <FilledButton slim type="primary" v-if="isExpanded" :click="hideApplicationList">Hide Apps</FilledButton>
       <FilledButton slim type="primary" v-else :click="showApplicationList">View Apps</FilledButton>
-    </TableRow>
+    </TableRow> -->
   </div>
-  <ApplicationListRow :is-visible="isApplicationListVisible" v-for="application in applications" :key="application.id"
-    :application="application" :id="`group_${group}_${application.id}`" />
+
+  <DataTable :value="applications" tableStyle="min-width: 50rem">
+    <Column field="name" header="Name"></Column>
+    <Column field="status" header="Status">
+      <template #body="slotProps">
+        {{ slotProps.latestDeployment.status }}
+      </template>
+    </Column>
+    <Column field="category" header="Category"></Column>
+    <Column field="quantity" header="Quantity"></Column>
+  </DataTable>
+  <!-- <ApplicationListRow
+    :is-visible="isApplicationListVisible"
+    v-for="application in applications"
+    :key="application.id"
+    :application="application"
+    :id="`group_${group}_${application.id}`" /> -->
 </template>
 
 <style scoped></style>

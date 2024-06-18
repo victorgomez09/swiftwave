@@ -6,10 +6,7 @@ import ModalDialog from '@/views/components/ModalDialog.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import PageBar from '@/views/components/PageBar.vue'
 import { useToast } from 'vue-toastification'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
 import UserCard from '@/views/partials/UserCard.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
 import { preventSpaceInput } from '@/vendor/utils.js'
 
 const toast = useToast()
@@ -126,8 +123,15 @@ onUserListFetchFailed((err) => {
               <div class="label">
                 <span class="label-text">Username</span>
               </div>
-              <input id="username" v-model="newUser.username" @keydown="preventSpaceInput" autocomplete="off"
-                class="input input-bordered w-full" name="username" placeholder="Username" type="text" />
+              <input
+                id="username"
+                v-model="newUser.username"
+                @keydown="preventSpaceInput"
+                autocomplete="off"
+                class="input input-bordered w-full"
+                name="username"
+                placeholder="Username"
+                type="text" />
             </label>
           </div>
           <!-- Password Field -->
@@ -136,8 +140,14 @@ onUserListFetchFailed((err) => {
               <div class="label">
                 <span class="label-text">Password</span>
               </div>
-              <input id="password" v-model="newUser.password" autocomplete="new-password"
-                class="input input-bordered w-full" name="password" placeholder="Password" type="password" />
+              <input
+                id="password"
+                v-model="newUser.password"
+                autocomplete="new-password"
+                class="input input-bordered w-full"
+                name="password"
+                placeholder="Password"
+                type="password" />
             </label>
           </div>
         </form>
@@ -160,7 +170,7 @@ onUserListFetchFailed((err) => {
     </PageBar>
 
     <div
-      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      class="grid-col mt-4 grid auto-cols-max grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
       <UserCard v-for="user in users" v-bind:key="user.id" :delete-user="deleteUserWithConfirmation" :user="user" />
     </div>
   </section>

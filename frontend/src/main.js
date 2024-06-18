@@ -2,6 +2,9 @@ import { createApp, h, markRaw, provide } from 'vue'
 import { createPinia } from 'pinia'
 import vueDebounce from 'vue-debounce'
 
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
+
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
 import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, split } from '@apollo/client/core'
@@ -272,6 +275,11 @@ app.use(Toast, {
   closeButton: 'button',
   icon: true,
   rtl: false
+})
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura
+  }
 })
 app.use(VueApexCharts)
 app.directive('debounce', vueDebounce({ lock: true }))

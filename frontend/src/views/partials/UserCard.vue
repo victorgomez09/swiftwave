@@ -1,8 +1,5 @@
 <script setup>
-import TableRow from '@/views/components/Table/TableRow.vue'
-import Badge from '@/views/components/Badge.vue'
-import TextButton from '@/views/components/TextButton.vue'
-import FilledButton from '../components/FilledButton.vue';
+import FilledButton from '../components/FilledButton.vue'
 
 defineProps({
   user: {
@@ -34,9 +31,7 @@ defineProps({
       </div>
 
       <div class="card-actions justify-end">
-        <FilledButton :click="() => deleteUser(user)" type="error" size="sm">
-          Delete
-        </FilledButton>
+        <FilledButton :click="() => deleteUser(user)" type="error" size="sm"> Delete </FilledButton>
       </div>
     </div>
   </div>

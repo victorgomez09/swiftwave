@@ -81,9 +81,11 @@ const applicationGroupWise = computed(() => {
           Deploy App
         </FilledButton>
         <FilledButton type="ghost" :click="refetchApplications">
-          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
-            'animate-spin ': isApplicationsLoading
-          }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon
+            icon="fa-solid fa-arrows-rotate"
+            :class="{
+              'animate-spin ': isApplicationsLoading
+            }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
@@ -93,13 +95,15 @@ const applicationGroupWise = computed(() => {
       No deployed applications found.<br />
       Click on the "Deploy New" button to deploy a new application.
     </p>
-    <p v-if="isApplicationsLoading"> Loading deployed applications...</p>
-    <div
+    <p v-if="isApplicationsLoading">Loading deployed applications...</p>
+    <!-- <div
       class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-      <ApplicationGroup v-for="(applications, group, index) in applicationGroupWise" :key="group" :group="group"
-        :group-index="index" :applications="applications" />
-    </div>
+    </div> -->
+    <ApplicationGroup
+      v-for="(applications, group, index) in applicationGroupWise"
+      :key="group"
+      :group="group"
+      :group-index="index"
+      :applications="applications" />
   </section>
 </template>
-
-<style scoped></style>

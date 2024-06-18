@@ -1,13 +1,10 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import PageBar from '@/views/components/PageBar.vue'
 import { computed, ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { useToast } from 'vue-toastification'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
 import ServerCard from '@/views/partials/ServerCard.vue'
 import CreateServerModal from '@/views/partials/CreateServerModal.vue'
 
@@ -69,17 +66,18 @@ const openCreateServerModal = () => {
           &nbsp;&nbsp; Add Server
         </FilledButton>
         <FilledButton type="ghost" :click="refetchServers">
-          <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
-            'animate-spin ': isServersLoading
-          }" />&nbsp;&nbsp; Refresh List
+          <font-awesome-icon
+            icon="fa-solid fa-arrows-rotate"
+            :class="{
+              'animate-spin ': isServersLoading
+            }" />&nbsp;&nbsp; Refresh List
         </FilledButton>
       </template>
     </PageBar>
 
     <div
-      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+      class="grid-col mt-4 grid auto-cols-max grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
       <ServerCard v-for="server in servers" :key="server.id" :server="server" :refetch-servers="refetchServers" />
     </div>
-
   </section>
 </template>

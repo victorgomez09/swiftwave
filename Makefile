@@ -1,6 +1,6 @@
 # Variables:
 DIST_DIR = swiftwave_service/dashboard/www
-SUBMOD_DIR = dashboard
+SUBMOD_DIR = frontend
 
 main: build_service
 

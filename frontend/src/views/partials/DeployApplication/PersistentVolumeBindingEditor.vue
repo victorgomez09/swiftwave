@@ -1,9 +1,4 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { computed, ref, toRef } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -72,7 +67,8 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
 
 <template>
   <CreatePersistentVolumeModal :callback-on-create="refetchPersistentVolumes" ref="createPersistentVolumeModalRef" />
-  <Table>
+  WIP
+  <!-- <Table>
     <template v-slot:header>
       <TableHeader align="center">Variable Name</TableHeader>
       <TableHeader align="center">Value</TableHeader>
@@ -104,7 +100,7 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
         <TableRow>
           <select
             :key="`credential-${key}`"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
             @change="(event) => onPersistentVolumeChange(key, event.target.value)">
             <option selected value="0">Select Persistent Volume</option>
             <option
@@ -119,7 +115,7 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
         <TableRow>
           <input
             :key="`value-${key}`"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
             placeholder="Mounted Path"
             type="text"
             v-bind:value="persistentVolumeBindingsMap[key]?.mountingPath ?? ''"
@@ -137,7 +133,5 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
         </TableRow>
       </tr>
     </template>
-  </Table>
+  </Table> -->
 </template>
-
-<style scoped></style>

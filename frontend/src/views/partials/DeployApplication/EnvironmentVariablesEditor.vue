@@ -1,9 +1,4 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { toRef } from 'vue'
 
 const props = defineProps({
@@ -38,7 +33,8 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
 </script>
 
 <template>
-  <Table>
+  WIP
+  <!-- <Table>
     <template v-slot:header>
       <TableHeader align="center">Variable Name</TableHeader>
       <TableHeader align="center">Value</TableHeader>
@@ -60,7 +56,7 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         <TableRow>
           <input
             :key="`name-${key}`"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
             placeholder="Environment Variable Name"
             type="text"
             v-bind:value="environmentVariablesMap[key]?.name ?? ''"
@@ -69,7 +65,7 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         <TableRow>
           <input
             :key="`value-${key}`"
-            class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
             placeholder="Environment Variable Value"
             type="text"
             v-bind:value="environmentVariablesMap[key]?.value ?? ''"
@@ -87,7 +83,5 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         </TableRow>
       </tr>
     </template>
-  </Table>
+  </Table> -->
 </template>
-
-<style scoped></style>
