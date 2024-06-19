@@ -1,5 +1,4 @@
 <script setup>
-import FilledButton from '@/views/components/FilledButton.vue'
 import PageBar from '@/views/components/PageBar.vue'
 import ApplicationGroup from '@/views/partials/ApplicationGroup.vue'
 import { useQuery } from '@vue/apollo-composable'
