@@ -1,9 +1,4 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { computed, ref, toRef } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -67,18 +62,19 @@ const persistentVolumes = computed(() => persistentVolumesResult.value?.persiste
 
 // Create persistent volume
 const createPersistentVolumeModalRef = ref(null)
-const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.value?.openModal ?? (() => {}))
+const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.value?.openModal ?? (() => { }))
 </script>
 
 <template>
   <CreatePersistentVolumeModal :callback-on-create="refetchPersistentVolumes" ref="createPersistentVolumeModalRef" />
-  <Table>
+  WIP
+  <!-- <Table>
     <template v-slot:header>
       <TableHeader align="center">Variable Name</TableHeader>
       <TableHeader align="center">Value</TableHeader>
       <TableHeader align="right" class="w-[80px]">Delete</TableHeader>
     </template>
-    <template v-slot:message>
+<template v-slot:message>
       <TableMessage v-if="persistentVolumeBindingKeys.length === 0" class="flex flex-col items-center">
         No Persistent Volume Bindings found.<br />
         If your application requires persistent volume bindings, you can add them here.<br />
@@ -99,7 +95,7 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
         </p>
       </div>
     </template>
-    <template v-slot:body>
+<template v-slot:body>
       <tr v-for="key in persistentVolumeBindingKeys" :key="key">
         <TableRow>
           <select
@@ -137,7 +133,7 @@ const openPersistentVolumeModal = computed(() => createPersistentVolumeModalRef.
         </TableRow>
       </tr>
     </template>
-  </Table>
+</Table> -->
 </template>
 
 <style scoped></style>

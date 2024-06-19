@@ -1,7 +1,4 @@
 <script setup>
-import TableRow from '@/views/components/Table/TableRow.vue'
-import Badge from '@/views/components/Badge.vue'
-import TextButton from '@/views/components/TextButton.vue'
 import FilledButton from '../components/FilledButton.vue';
 
 defineProps({

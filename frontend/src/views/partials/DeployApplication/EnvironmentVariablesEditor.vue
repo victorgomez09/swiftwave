@@ -1,9 +1,4 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { toRef } from 'vue'
 
 const props = defineProps({
@@ -38,13 +33,14 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
 </script>
 
 <template>
-  <Table>
+  WIP
+  <!-- <Table>
     <template v-slot:header>
       <TableHeader align="center">Variable Name</TableHeader>
       <TableHeader align="center">Value</TableHeader>
       <TableHeader align="right" class="w-[80px]">Delete</TableHeader>
     </template>
-    <template v-slot:message>
+<template v-slot:message>
       <TableMessage v-if="environmentVariablesKeys.length === 0" class="flex flex-col items-center">
         No Environment Variables found.<br />
         If your application requires environment variables, you can add them here.<br />
@@ -55,31 +51,23 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         Want to add more environment variables ?
       </div>
     </template>
-    <template v-slot:body>
+<template v-slot:body>
       <tr v-for="key in environmentVariablesKeys" :key="key">
         <TableRow>
-          <input
-            :key="`name-${key}`"
+          <input :key="`name-${key}`"
             class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            placeholder="Environment Variable Name"
-            type="text"
-            v-bind:value="environmentVariablesMap[key]?.name ?? ''"
+            placeholder="Environment Variable Name" type="text" v-bind:value="environmentVariablesMap[key]?.name ?? ''"
             @input="(event) => onVariableNameChange(key, event.target.value)" />
         </TableRow>
         <TableRow>
-          <input
-            :key="`value-${key}`"
+          <input :key="`value-${key}`"
             class="focus:border-primary focus:ring-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            placeholder="Environment Variable Value"
-            type="text"
+            placeholder="Environment Variable Value" type="text"
             v-bind:value="environmentVariablesMap[key]?.value ?? ''"
             @input="(event) => onVariableValueChange(key, event.target.value)" />
         </TableRow>
         <TableRow align="right" class="flex">
-          <FilledButton
-            :key="`delete-${key}`"
-            :click="() => deleteEnvironmentVariable(key)"
-            class="w-full"
+          <FilledButton :key="`delete-${key}`" :click="() => deleteEnvironmentVariable(key)" class="w-full"
             type="danger">
             <font-awesome-icon class="mr-2" icon="fa-solid fa-trash" />
             Delete Variable
@@ -87,7 +75,7 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         </TableRow>
       </tr>
     </template>
-  </Table>
+</Table> -->
 </template>
 
 <style scoped></style>

@@ -2,9 +2,6 @@
 import ApplicationListRow from '@/views/partials/ApplicationListRow.vue'
 import { computed, onMounted, ref } from 'vue'
 import { getRandomBackgroundAndBorderColourClass } from '@/vendor/utils.js'
-import TableRow from '@/views/components/Table/TableRow.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import UptimeChart from '@/views/components/UptimeChart.vue'
 
 const props = defineProps({
   groupIndex: {
@@ -96,7 +93,8 @@ onMounted(() => {
   </div>
   <div v-if="group !== ''" @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
     class="cursor-pointer">
-    <TableRow align="left">
+    WIP
+    <!-- <TableRow align="left">
       <div class="text-sm font-medium text-gray-900">
         {{ decodeURI(group) }}
       </div>
@@ -114,7 +112,7 @@ onMounted(() => {
     <TableRow align="right" flex>
       <FilledButton slim type="primary" v-if="isExpanded" :click="hideApplicationList">Hide Apps</FilledButton>
       <FilledButton slim type="primary" v-else :click="showApplicationList">View Apps</FilledButton>
-    </TableRow>
+    </TableRow> -->
   </div>
   <ApplicationListRow :is-visible="isApplicationListVisible" v-for="application in applications" :key="application.id"
     :application="application" :id="`group_${group}_${application.id}`" />
