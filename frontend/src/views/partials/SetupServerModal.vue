@@ -1,17 +1,13 @@
 <script setup>
-import { useToast } from 'vue-toastification'
-import { computed, reactive, ref } from 'vue'
+import Code from '@/views/components/Code.vue'
+import FilledButton from '@/views/components/FilledButton.vue'
 import ModalDialog from '@/views/components/ModalDialog.vue'
 import Step from '@/views/components/Step.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import gql from 'graphql-tag'
 import { useLazyQuery, useMutation, useQuery } from '@vue/apollo-composable'
-import Code from '@/views/components/Code.vue'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
-import Badge from '@/views/components/Badge.vue'
+import gql from 'graphql-tag'
+import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 // Modal related methods
 const props = defineProps({
@@ -323,12 +319,13 @@ onNetworkInterfacesOfServerResult((result) => {
             </FilledButton>
             <div v-else-if="info.dependenciesInstalled === 0">
               <!--    Show Report        -->
-              <Table class="mt-4">
+              wip
+              <!-- <Table class="mt-4">
                 <template v-slot:header>
                   <TableHeader align="left">Package Name</TableHeader>
                   <TableHeader align="center">Status</TableHeader>
                 </template>
-                <template v-slot:body>
+<template v-slot:body>
                   <tr v-for="dep in info.dependencyReport" :key="dep.name">
                     <TableRow align="left">{{ dep.name }}</TableRow>
                     <TableRow align="center">
@@ -337,7 +334,7 @@ onNetworkInterfacesOfServerResult((result) => {
                     </TableRow>
                   </tr>
                 </template>
-              </Table>
+</Table> -->
               <!--    Show utility options          -->
               <div class="mt-2 flex flex-row gap-2">
                 <FilledButton class="w-full" :click="installDependenciesOnServer" :loading="isInstallingDependencies">

@@ -1,10 +1,8 @@
 <script setup>
-import ApplicationListRow from '@/views/partials/ApplicationListRow.vue'
-import { computed, onMounted, ref } from 'vue'
-import { getRandomBackgroundAndBorderColourClass } from '@/vendor/utils.js'
-import TableRow from '@/views/components/Table/TableRow.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import UptimeChart from '@/views/components/UptimeChart.vue'
+import router from '@/router/index.js';
+import { getRandomBackgroundAndBorderColourClass } from '@/vendor/utils.js';
+import moment from 'moment';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps({
   groupIndex: {
@@ -87,6 +85,69 @@ const hideApplicationList = () => {
 onMounted(() => {
   initGroupDiv()
 })
+
+const columns = [
+  {
+    name: 'name',
+    label: 'Name',
+    align: 'left',
+    field: row => row.name,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'status',
+    label: 'Status',
+    align: 'left',
+    field: row => row.latestDeployment.status,
+    sortable: true
+  },
+  {
+    name: 'source',
+    label: 'Source',
+    align: 'left',
+    field: row => row.latestDeployment.upstreamType,
+    sortable: true
+  },
+  {
+    name: 'replicas',
+    label: 'Replicas',
+    align: 'left',
+    field: row => row.latestDeployment.status,
+    sortable: true
+  },
+  {
+    name: 'createdAt',
+    label: 'Created At',
+    align: 'left',
+    field: row => row.latestDeployment.createdAt,
+    format: row => moment(row.latestDeployment.createdAt).format('DD/MM/YYYY HH:mm'),
+    sortable: true
+  },
+]
+
+const getBadgeStatusColor = (status) => {
+  switch (status) {
+    case "pending":
+    case "deployPending":
+    case "stopped":
+      return "yellow";
+
+    case "live":
+      return "green";
+
+    default:
+      return "red";
+  }
+}
+
+const createdAtFormatted = (app) => {
+  return moment(app.latestDeployment.createdAt).format('DD/MM/YYYY HH:mm')
+}
+
+const viewApplicationDetails = (application) => {
+  router.push(`/application/${application.id}/deployments`)
+}
 </script>
 
 <template>
@@ -96,7 +157,8 @@ onMounted(() => {
   </div>
   <div v-if="group !== ''" @click.prevent="isExpanded ? hideApplicationList() : showApplicationList()"
     class="cursor-pointer">
-    <TableRow align="left">
+    wip
+    <!-- <TableRow align="left">
       <div class="text-sm font-medium text-gray-900">
         {{ decodeURI(group) }}
       </div>
@@ -114,10 +176,64 @@ onMounted(() => {
     <TableRow align="right" flex>
       <FilledButton slim type="primary" v-if="isExpanded" :click="hideApplicationList">Hide Apps</FilledButton>
       <FilledButton slim type="primary" v-else :click="showApplicationList">View Apps</FilledButton>
-    </TableRow>
+    </TableRow> -->
   </div>
-  <ApplicationListRow :is-visible="isApplicationListVisible" v-for="application in applications" :key="application.id"
-    :application="application" :id="`group_${group}_${application.id}`" />
-</template>
 
-<style scoped></style>
+  <q-table flat bordered :rows="applications" :columns="columns" row-key="name" class="w-full h-full mt-10">
+    <template v-slot:body="props">
+      <q-tr :props="props">
+        <q-td key="name" :props="props" @click="viewApplicationDetails(props.row)">
+          <q-btn flat color="primary" :label="props.row.name" />
+        </q-td>
+        <q-td key="status" :props="props">
+          <q-badge :color="getBadgeStatusColor(props.row.latestDeployment.status)">
+            {{ props.row.latestDeployment.status }}
+          </q-badge>
+        </q-td>
+        <q-td key="source" :props="props">
+          <span v-if="props.row.latestDeployment.upstreamType === 'git'">
+            {{ props.row.latestDeployment.gitProvider }}
+          </span>
+          <span v-else-if="props.row.latestDeployment.upstreamType === 'image'">
+            Docker Image
+          </span>
+          <span v-else-if="props.row.latestDeployment.upstreamType === 'sourceCode'">
+            Source Code
+          </span>
+          <span v-else>N/A</span>
+
+          <font-awesome-icon v-if="props.row.latestDeployment.upstreamType === 'git'" icon="fa-solid fa-code-branch"
+            class="mx-2" />
+          <font-awesome-icon v-else-if="props.row.latestDeployment.upstreamType === 'image'" class="mx-2"
+            icon="fa-brands fa-docker" />
+          <font-awesome-icon v-else-if="props.row.latestDeployment.upstreamType === 'sourceCode'" class="mx-2"
+            icon="fa-solid fa-upload" />
+        </q-td>
+        <q-td key="replicas" :props="props">
+          <div v-if="!props.row.isSleeping && props.row.realtimeInfo.InfoFound">
+            <div v-if="props.row.deploymentMode === 'replicated'">
+              {{ props.row.realtimeInfo.RunningReplicas }} / {{ props.row.realtimeInfo.DesiredReplicas }}
+            </div>
+            <div v-else-if="props.row.deploymentMode === 'global'">Global</div>
+            <div v-else>----</div>
+          </div>
+          <div v-else-if="props.row.isSleeping">
+            <div class="text-warning">
+              <div class="flex flex-row items-center gap-1.5">
+                <font-awesome-icon icon="fa-solid fa-bed" />
+                Sleeping
+              </div>
+            </div>
+          </div>
+          <div v-else align="center">
+            <div>----</div>
+          </div>
+        </q-td>
+
+        <q-td key="createdAt" :props="props">
+          {{ createdAtFormatted(props.row) }}
+        </q-td>
+      </q-tr>
+    </template>
+  </q-table>
+</template>

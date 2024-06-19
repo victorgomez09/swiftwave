@@ -1,9 +1,4 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
-import FilledButton from '@/views/components/FilledButton.vue'
-import TableRow from '@/views/components/Table/TableRow.vue'
 import { toRef } from 'vue'
 
 const props = defineProps({
@@ -38,13 +33,14 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
 </script>
 
 <template>
-  <Table>
+  wip
+  <!-- <Table>
     <template v-slot:header>
       <TableHeader align="center">Variable Name</TableHeader>
       <TableHeader align="center">Value</TableHeader>
       <TableHeader align="right" class="w-[80px]">Delete</TableHeader>
     </template>
-    <template v-slot:message>
+<template v-slot:message>
       <TableMessage v-if="environmentVariablesKeys.length === 0" class="flex flex-col items-center">
         No Environment Variables found.<br />
         If your application requires environment variables, you can add them here.<br />
@@ -55,7 +51,7 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         Want to add more environment variables ?
       </div>
     </template>
-    <template v-slot:body>
+<template v-slot:body>
       <tr v-for="key in environmentVariablesKeys" :key="key">
         <TableRow>
           <input
@@ -87,7 +83,7 @@ const environmentVariablesKeys = toRef(props, 'environmentVariablesKeys')
         </TableRow>
       </tr>
     </template>
-  </Table>
+</Table> -->
 </template>
 
 <style scoped></style>

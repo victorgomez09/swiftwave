@@ -76,15 +76,15 @@ const applicationGroupWise = computed(() => {
       <template v-slot:title>Deployed Applications</template>
       <template v-slot:subtitle>Take control of your deployed applications</template>
       <template v-slot:buttons>
-        <FilledButton :click="deployNewApplication" type="primary">
+        <q-btn color="primary" @click="deployNewApplication()">
           <font-awesome-icon icon="fa-solid fa-hammer" class="mr-2" />
           Deploy App
-        </FilledButton>
-        <FilledButton type="ghost" :click="refetchApplications">
+        </q-btn>
+        <q-btn flat color="primary" @click="refetchApplications()">
           <font-awesome-icon icon="fa-solid fa-arrows-rotate" :class="{
             'animate-spin ': isApplicationsLoading
           }" />&nbsp;&nbsp; Refresh List
-        </FilledButton>
+        </q-btn>
       </template>
     </PageBar>
 
@@ -94,12 +94,8 @@ const applicationGroupWise = computed(() => {
       Click on the "Deploy New" button to deploy a new application.
     </p>
     <p v-if="isApplicationsLoading"> Loading deployed applications...</p>
-    <div
-      class="grid grid-col gap-2 lg:gap-8 auto-cols-max grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-      <ApplicationGroup v-for="(applications, group, index) in applicationGroupWise" :key="group" :group="group"
-        :group-index="index" :applications="applications" />
-    </div>
+
+    <ApplicationGroup v-for="(applications, group, index) in applicationGroupWise" :key="group" :group="group"
+      :group-index="index" :applications="applications" />
   </section>
 </template>
-
-<style scoped></style>

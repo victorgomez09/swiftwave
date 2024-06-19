@@ -1,15 +1,12 @@
 <script setup>
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import PageBar from '@/views/components/PageBar.vue'
-import { computed, ref } from 'vue'
+import CreateServerModal from '@/views/partials/CreateServerModal.vue'
+import ServerCard from '@/views/partials/ServerCard.vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import { computed, ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
-import ServerCard from '@/views/partials/ServerCard.vue'
-import CreateServerModal from '@/views/partials/CreateServerModal.vue'
 
 const toast = useToast()
 const createServerModal = ref(null)

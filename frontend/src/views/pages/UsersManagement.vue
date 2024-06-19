@@ -6,10 +6,7 @@ import ModalDialog from '@/views/components/ModalDialog.vue'
 import FilledButton from '@/views/components/FilledButton.vue'
 import PageBar from '@/views/components/PageBar.vue'
 import { useToast } from 'vue-toastification'
-import Table from '@/views/components/Table/Table.vue'
-import TableHeader from '@/views/components/Table/TableHeader.vue'
 import UserCard from '@/views/partials/UserCard.vue'
-import TableMessage from '@/views/components/Table/TableMessage.vue'
 import { preventSpaceInput } from '@/vendor/utils.js'
 
 const toast = useToast()
