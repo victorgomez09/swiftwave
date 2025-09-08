@@ -1,4 +1,4 @@
 [submodule "dashboard"]
 	path = dashboard
-	url = git@github.com:swiftwave-org/dashboard.git
+	url = https://github.com/swiftwave-org/dashboard.git
 	branch = v2
